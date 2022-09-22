@@ -4,6 +4,6 @@ This website is for my Advanced Higher Computing project. The website connects t
 
 You can log your owned guitars, and can view users owned guitars.
 
-To run this, open terminal and cd to your local server files, then type:
+To run this, open terminal and cd to your local server html files, then type:
 
 <code>git clone https://github.com/petertasker/guitar-web.git<code>
