@@ -3,31 +3,20 @@
 <head>
   <title>Peters Guitar Logger!</title>
   <meta charset="UTF-8" />
-  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
 
 <?php   
   // connect to database for datalist query  
-  //create connection
-  $conn = new mysqli("localhost", "username", "password", "GuitarDatabase");
+  // create connection
+  $conn = mysqli_connect("localhost", "root", "password", "guitardatabase");
 
   // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
+  if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
   }
   
-  $query = "SELECT brandName from Brand";
-  $result = ($conn->query($query));
-  //declare array to store the data of database
-  $row = []; 
-  $result = $conn->query($query);
-
-  if ($result->num_rows > 0) 
-  {
-      // fetch all data from db into array 
-      $row = $result->fetch_all(MYSQLI_ASSOC);
-  }
 ?>
 
   <div>
@@ -38,23 +27,30 @@
       -->
       <p>
         <label for="make">Guitar Make:</label> 
-        <input type="text" name="make">
+        <input type="text" name="make"><br>
       </p>
 
       <p>
         <label for="brandName">Manufacturer:</label>
         <input type="text" name="brandName" list="brands">
-        <!-- This will show all the brands already in the database, but will
-            allow the user to insert new ones, to hopefully lessen duplicate
-            data. -->
+
         <datalist id="brands">
-    
-
-
+        <?php
+          // Query and result of query.
+          // This will show as a drop down menu to try and prevent duplicate
+          // data.
+          $sql = "SELECT brandName FROM brand";
+          $result = mysqli_query($conn, $sql);
+          foreach ($result as $row) {
+          
+          echo "<option value='$row[brandName]'/>"; }
+        ?>
+        
+ 
 
         </datalist>
       </p> 
-    
+
       <p>
         <label for="type">Guitar type</label>
         <select>
@@ -72,8 +68,10 @@
 
       <p>
         <label for="yearProduced">Year Produced</label>
-        <input type="number" min="1900" max="2099" name="yearProduced">
+        <!-- PHP Sets max year as current year -->
+        <input type="number" id="year-produced" min="1900" max="<?php echo date("Y");?>" name="yearProduced">
       </p>
+
       <p>
         <input type="submit" value="Submit">
 
@@ -86,27 +84,3 @@
 ?>
 </body>
 </html>
-
-
-<!--
-Brand:
-  brandName
-  dateEstablished
-
-Guitar:
-  guitarID
-  make
-  brandName*
-  type
-  wood
-  yearProduced
-
-Users:
-  userID
-  username
-  password
-
-OwnedGuitars:
-  userID*
-  guitarID*
--->
