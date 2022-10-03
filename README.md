@@ -10,3 +10,6 @@ To run this, open terminal and cd to your local server html files, then type:
 
 
 You can view changes using: <code>$ git status </code>
+
+If the database doesnt connect in PHP, try use : 
+<code> GRANT ALL PRIVILEGES ON guitardatabase TO 'root'@'localhost' IDENTIFIED BY 'password'; </code>
