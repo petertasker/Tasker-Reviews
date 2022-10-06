@@ -2,7 +2,7 @@
 CREATE TABLE Brand 
 ( 
   BrandName VARCHAR(100) NOT NULL, 
-  YearEst INT NOT NULL, 
+  TimesLogged INT NOT NULL, 
   PRIMARY KEY (brandName) 
 ); 
 
