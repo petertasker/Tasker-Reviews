@@ -22,7 +22,6 @@ CREATE TABLE Guitar
   YearMade INT NOT NULL, 
   Signature BOOL NOT NULL, 
   SignatureArtist VARCHAR(100), 
-  brandName INT NOT NULL, 
   PRIMARY KEY (GuitarID), 
   FOREIGN KEY (BrandName) REFERENCES Brand(BrandName) 
 ); 
