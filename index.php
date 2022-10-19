@@ -1,3 +1,10 @@
+<?php
+require_once "config.php";
+require_once "session_start.php";
+require_once "redirect_login.php";
+$username = $_SESSION['username'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,19 +13,6 @@
   <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
-
-<?php   
-  // connect to database for datalist query  
-  // create connection
-  $conn = mysqli_connect("localhost", "root", "password", "guitardatabase");
-
-  // Check connection
-  if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-  }
-  
-?>
-
   <div>
     <form action="process.php" method="post">
       <!--
