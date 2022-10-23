@@ -1,3 +1,4 @@
+/*
 function validateSignup() {
     let password = document.getElementById("password").value;
     upper = false;
@@ -22,3 +23,5 @@ function validateSignup() {
         return false;
     }
 }
+*/
+
