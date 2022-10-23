@@ -1,80 +1,82 @@
 <?php
 require_once "config.php";
 require_once "session_start.php";
-require_once "redirect_login.php";
-$username = $_SESSION['username'];
+// require_once "redirect_login.php";
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Peters Guitar Logger!</title>
+  <title>Guitar Review</title>
   <meta charset="UTF-8" />
   <link rel="stylesheet" type="text/css" href="style.css"/>
-</head>
+  </head>
 <body>
-  <div>
-    <form action="process.php" method="post">
-      <!--
-      Will be a select dropdown from already submitted brands, but Will
-      be able to be added to.
-      -->
-      <p>
-        <label for="make">Guitar Make:</label> 
-        <input type="text" name="make"><br>
-      </p>
+  <div id="top">
+    <?php
+    // if session names are set the bar at the top displays 'my reviews'
+    // and 'sign out'. If they arent set it displays 'log in'
+    if (isset($_SESSION['forename'])) {
+      $username = $_SESSION['username'];
+      ?>
 
-      <p>
-        <label for="brandName">Manufacturer:</label>
-        <input type="text" name="brandName" list="brands">
+      <p>Hello, <?php echo $_SESSION['forename'] ?> </p>
+    
+      <ul>
+        <a class="nav-link" href="?logout">Sign Out</a>
+        <a class="nav-link" href="myreviews.php">My reviews</a>
+    </ul>
+    <?php
+    } else {
+      echo "<a href='login.php'>Log in here</a>";
+    }
+    // Logs out the user when the link is clicked
+    if(isset($_GET['logout'])) {
+      session_unset();
+      }
+    ?>
 
-        <datalist id="brands">
-        <?php
-          // Query and result of query.
-          // This will show as a drop down menu to try and prevent duplicate
-          // data.
-          $sql = "SELECT brandName FROM brand";
-          $result = mysqli_query($conn, $sql);
-          foreach ($result as $row) {
-          
-          echo "<option value='$row[brandName]'/>"; }
-        ?>
-        
- 
-
-        </datalist>
-      </p> 
-
-      <p>
-        <label for="type">Guitar type</label>
-        <select>
-          <option value="Electric">Electric</option>
-          <option value="Acoustic">Acoustic</option>
-          <option value="Classical">Classical</option>
-          <option value="Bass">Bass</option>
-        </select>
-      </p>
-
-      <p>
-        <label for="wood">Wood</label>
-        <input type="text" name="wood">
-      </p>
-
-      <p>
-        <label for="yearProduced">Year Produced</label>
-        <!-- PHP Sets max year as current year -->
-        <input type="number" id="year-produced" min="1900" max="<?php echo date("Y");?>" name="yearProduced">
-      </p>
-
-      <p>
-        <input type="submit" value="Submit">
-
-    </form>
   </div>
-
-<?php 
-  //close connection
-  mysqli_close($conn);
-?>
+  <div style="clear:both"></div>
+  <section>
+    <div id="main-div-1">
+    <div class="image">
+      <img class="image__img" src="media/guitarsquare.jpg" alt="Guitar">
+      <div class="image__overlay">
+        <div class="image__title">
+          <a class="link" href="guitarreview.php">Review guitar</a>
+        </div>
+        <p class="image__description">
+          Click above to review a guitar.
+        </p>
+      </div>
+    </div>
+    <div class="image"> 
+        <img class="image__img" src="media/accessory2.jpg" alt="Accessory">
+        <div class="image__overlay">
+          <div class="image__title">
+            <a class="link" href="accessoryreview.php">Review accessory</a>
+          </div>
+          <p class="image__description">
+            Click above to review an accessory.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div id="main-div-2">
+    <div class="image" style="width:100% !important">
+      <img class="image__img" src="media/review.jpg" alt="Review">
+      <div class="image__overlay">
+        <div class="image__title">
+          <a class="link" href="searchreview.php">Find Reviews</a>
+        </div>
+        <p class="image__description">
+          Click above to find reviews.
+        </p>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
+
