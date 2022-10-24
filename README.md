@@ -11,3 +11,5 @@ To run this, open terminal and cd to your local server html files, then type:
 
 You can view changes using: <code>$ git status </code>
 
+If access is denied because of wrong password, go to config.php and change the password to your DB password.
+
