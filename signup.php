@@ -72,14 +72,14 @@ require_once "session_start.php";
                             // Displays all the error messages. printf formats it.
                             if (sizeof($errors) > 0) {
                                 foreach($errors as $error) {
-                                    printf("<li style='list-style-type: none;'>%s</li>", $error);
+                                    printf("<li class='error-msg'>%s</li>", $error);
                                 }
 
                             } else {
                                 $sql = "INSERT INTO Users(Email, Username, Forename, Surname, UserPassword) 
                                     VALUES('$email', '$username', '$forename', '$surname', '$hashed_password')";
                                 if (mysqli_query($conn, $sql)) {
-                                    print("<li style='list-style-type: none;'>User Created, please <a href='/guitar-web/login.php'>log in</a></li>");
+                                    print("<li class='error-msg'>User Created, please <a href='/guitar-web/login.php'>log in</a></li>");
                                 } else {
                                     echo mysqli_error($conn);
                                 }
