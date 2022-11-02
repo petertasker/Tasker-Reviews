@@ -34,32 +34,43 @@ require_once "session_start.php";
                             $errors = array();
 
                             // gets information when submit is clicked
-                            //mysqli_real_escape_string() cleans inputs
+                            // mysqli_real_escape_string() cleans inputs
                             $forename = mysqli_real_escape_string($conn,$_POST['forename']);
                             $surname = mysqli_real_escape_string($conn,$_POST['surname']);
                             $email = mysqli_real_escape_string($conn,$_POST['email']);
                             $username =  mysqli_real_escape_string($conn, $_POST['username']);
                             $password = mysqli_real_escape_string($conn, $_POST['password']);
-                            //hashes the password
+
+                            // Hashes and salts the password
                             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                             
+                            // Validations
+                            
+                            // Prepared statements
+                            $stmt = $conn -> prepare("SELECT Username FROM Users WHERE Username = ?");
+                            // Bind parameters
+                            $stmt -> bind_param("s", $username);
+                            $stmt -> execute();
+                            $stmt -> store_result();
+                            $stmt -> bind_result($db_username);
+                            if ($stmt -> num_rows() > 0){ 
+                                $errors[] = "Username already taken.";
+                            }
+                            
+                            $stmt = $conn -> prepare("SELECT Email FROM Users WHERE Email = ?");
+                            // Bind parameters
+                            $stmt -> bind_param("s", $email);
+                            $stmt -> execute();
+                            $stmt -> store_result();
+                            $stmt -> bind_result($db_email);
+                            if ($stmt -> num_rows() > 0){ 
+                                $errors[] = "Email already taken.";
+                            }
+                            $stmt -> close();
 
                             if (strlen($username) < 5) {
                                 $errors[] = "Username is not long enough.";
                             }
-
-                            $username_query = "SELECT Username FROM Users WHERE Username = '$username'";
-                            $result = (mysqli_query($conn, $username_query));
-                            if(mysqli_num_rows($result) > 0) {
-                                $errors[] = "Username already taken.";
-                            }
-
-                            $email_query = "SELECT Email FROM Users WHERE Email = '$email'";
-                            $result = (mysqli_query($conn, $email_query));
-                            if(mysqli_num_rows($result) > 0) {
-                                $errors[] = "Email already used.";
-                            }
-
         
                             if (!(preg_match('/[0-9]+/', $password))) {
                                 $errors[] = "Password must have a digit.";
@@ -72,6 +83,7 @@ require_once "session_start.php";
                             // Displays all the error messages. printf formats it.
                             if (sizeof($errors) > 0) {
                                 foreach($errors as $error) {
+<<<<<<< HEAD
                                     printf("<li class='error-msg'>%s</li>", $error);
                                 }
 
@@ -83,6 +95,19 @@ require_once "session_start.php";
                                 } else {
                                     echo mysqli_error($conn);
                                 }
+=======
+                                    printf("<li class='login-msg'>%s</li>", $error);
+                                }
+
+                            } else {
+
+                                $stmt = $conn -> prepare("INSERT INTO Users(Email, Username, Forename, Surname, UserPassword)
+                                                        VALUES(?, ?, ?, ?, ?)");
+                                // Bind parameters - 5 Strings
+                                $stmt -> bind_param("sssss", $email, $username, $forename, $surname, $hashed_password);
+                                $stmt -> execute();
+                                print("<li class='login-msg'>User Created, please <a href='/guitar-web/login.php'>log in</a></li>");    
+>>>>>>> 5028c8095d4f387e9ba9c14c81a4ce41be0da784
                             }       
 
                         }

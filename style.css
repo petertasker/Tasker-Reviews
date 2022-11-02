@@ -189,6 +189,7 @@ time, mark, audio, video {
     font-size:0.8em;
 }
 
+<<<<<<< HEAD
 #btn2{
     float:left;
     background:#3498db;
@@ -209,3 +210,9 @@ time, mark, audio, video {
     list-style-type: none;
 }
 /* -------------- */
+=======
+.login-msg {
+    list-style-type: none;
+    color: black;
+}
+>>>>>>> 5028c8095d4f387e9ba9c14c81a4ce41be0da784
