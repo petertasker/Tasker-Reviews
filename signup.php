@@ -83,19 +83,6 @@ require_once "session_start.php";
                             // Displays all the error messages. printf formats it.
                             if (sizeof($errors) > 0) {
                                 foreach($errors as $error) {
-<<<<<<< HEAD
-                                    printf("<li class='error-msg'>%s</li>", $error);
-                                }
-
-                            } else {
-                                $sql = "INSERT INTO Users(Email, Username, Forename, Surname, UserPassword) 
-                                    VALUES('$email', '$username', '$forename', '$surname', '$hashed_password')";
-                                if (mysqli_query($conn, $sql)) {
-                                    print("<li class='error-msg'>User Created, please <a href='/guitar-web/login.php'>log in</a></li>");
-                                } else {
-                                    echo mysqli_error($conn);
-                                }
-=======
                                     printf("<li class='login-msg'>%s</li>", $error);
                                 }
 
@@ -107,7 +94,6 @@ require_once "session_start.php";
                                 $stmt -> bind_param("sssss", $email, $username, $forename, $surname, $hashed_password);
                                 $stmt -> execute();
                                 print("<li class='login-msg'>User Created, please <a href='/guitar-web/login.php'>log in</a></li>");    
->>>>>>> 5028c8095d4f387e9ba9c14c81a4ce41be0da784
                             }       
 
                         }
