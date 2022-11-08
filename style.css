@@ -124,7 +124,7 @@ time, mark, audio, video {
     width:100%; 
     text-align:center;
     margin: 20px 0px 20px 0px;   
-      
+    display: table;     
 }
 
 .form-body p{
@@ -142,9 +142,10 @@ time, mark, audio, video {
     background:white;
     width:300px;
     border-radius:6px;
-    margin: 0 auto 0 auto;
+    margin: 10% auto 0 auto;
     padding:0px 0px 70px 0px;
-    border: #2980b9 4px solid; 
+    border: #525252 4px solid;
+
     
 }
 
@@ -189,5 +190,12 @@ time, mark, audio, video {
 
 .login-msg {
     list-style-type: none;
+    color: black;
+}
+
+.review-textarea {
+    width: 250px;
+    min-width: 250px;
+    max-width: 250px;
     color: black;
 }
