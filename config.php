@@ -2,7 +2,7 @@
 // This script is ran at runtime
 define("db_server", "localhost");
 define("db_username", "root");
-define("db_password", "root");
+define("db_password", "");
 define("db_name", "Guitar");
 
 
@@ -17,3 +17,4 @@ if($conn === false){
     die("ERROR: Could not connect. " . mysqli_connect_error());
 }
 ?>
+
