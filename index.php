@@ -12,7 +12,7 @@ require_once "session_start.php";
   <link rel="stylesheet" type="text/css" href="style.css"/>
   </head>
 <body>
-  <div id="top">
+  <div class="top">
     <?php
     // if session names are set the bar at the top displays 'my reviews'
     // and 'sign out'. If they arent set it displays 'log in'
@@ -25,7 +25,7 @@ require_once "session_start.php";
       <ul>
         <a class="nav-link" href="?logout">Sign Out</a>
         <a class="nav-link" href="myreviews.php">My reviews</a>
-    </ul>
+      </ul>
     <?php
     } else {
       echo "<a href='login.php'>Log in here</a>";

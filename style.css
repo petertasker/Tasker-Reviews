@@ -80,12 +80,12 @@ time, mark, audio, video {
 .link {
     color: white;
 }
-#top {
+.top {
     overflow: hidden;
     background-color: #333;
 }
 
-#top p{
+.top p{
     font-size: 2em;
     font-family: "Quicksand", sans-serif;
     float: left;
@@ -94,7 +94,7 @@ time, mark, audio, video {
     
 }
 
-#top a {
+.top a {
     font-size: 2em;
     font-family: "Quicksand", sans-serif;
     float: right;
@@ -105,7 +105,7 @@ time, mark, audio, video {
     color: white;
 }
 
-#top a:hover {
+.top a:hover {
     color: rgb(220,220,220);
     padding:0 0;
     text-decoration: underline;
@@ -197,5 +197,32 @@ time, mark, audio, video {
     width: 250px;
     min-width: 250px;
     max-width: 250px;
+    min-height: 20px;
     color: black;
+}
+
+div.stars {
+    width: 270px;
+    display: inline-block;
+}
+ 
+input.star { 
+    display: none;
+ }
+ 
+label.star {
+  float: right;
+  padding: 10px;
+  font-size: 36px;
+  color: #444;
+}
+ 
+input.star:checked ~ label.star:before {
+  content: '\f005';
+  color: #FD4;
+}
+ 
+label.star:before {
+  content: '\f006';
+  font-family: FontAwesome;
 }
