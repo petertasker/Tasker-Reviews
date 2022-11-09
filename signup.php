@@ -12,9 +12,17 @@ require_once "session_start.php";
         <meta charset="utf-8">
         <title>Guitar Reviews</title>
         <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="shortcut icon" href="media/gtr-favicon.ico"/>
         <script src="script.js"></script>
     </head>
     <body class="form-body">
+        <div class="top">
+            <ul>
+                <a class="nav-link" href="login.php">Log In</a>
+                <a class="nav-link" href="signup.php">Sign up</a>
+                <a class="nav-link" href="index.php">Home</a>
+            </ul>
+        </div>
         <div id="register-form">
             <form name="signup" action="" method="post" onsubmit="return validateSignup()">
                 <div class="box">
@@ -25,8 +33,8 @@ require_once "session_start.php";
                     <input type="text" name="username" id="username" class="input" placeholder="Username" required>
                     <input type="password" name="password" id="password" class="password" class="input"placeholder="password" required>
                     <div><input class="btn" type="submit" name="submit" value="Submit"></div>
-                    <a href="/guitar-web/login.php"><div class="btn"id="btn2">Login Page</div></a>
-                    <br><br><br>
+                    <div><input class="btn"id="btn2" value="reset" name="reset" type="reset"></div> 
+                    
                     <?php 
                         if (isset($_POST["submit"])) {
                             
@@ -82,6 +90,7 @@ require_once "session_start.php";
                             
                             // Displays all the error messages. printf formats it.
                             if (sizeof($errors) > 0) {
+                                print("<br><br><br>");
                                 foreach($errors as $error) {
                                     printf("<li class='login-msg'>%s</li>", $error);
                                 }
@@ -93,7 +102,7 @@ require_once "session_start.php";
                                 // Bind parameters - 5 Strings
                                 $stmt -> bind_param("sssss", $email, $username, $forename, $surname, $hashed_password);
                                 $stmt -> execute();
-                                print("<li class='login-msg'>User Created, please <a href='/guitar-web/login.php'>log in</a></li>");    
+                                print("<br><br><br><li class='login-msg'>User Created, please <a href='/guitar-web/login.php'>log in</a></li>");    
                             }       
 
                         }

@@ -6,10 +6,11 @@ require_once "session_start.php";
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Guitar Review</title>
-  <meta charset="UTF-8" />
-  <link rel="stylesheet" type="text/css" href="style.css"/>
+  <head>
+    <title>Guitar Review</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link rel="shortcut icon" href="media/gtr-favicon.ico"/>
   </head>
 <body>
   <div class="top">
