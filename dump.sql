@@ -88,7 +88,6 @@ CREATE TABLE `review` (
   `StarRating` int(11) NOT NULL,
   `Email` varchar(255) NOT NULL,
   PRIMARY KEY (`ReviewID`),
-  UNIQUE KEY `Username` (`Username`),
   KEY `Email` (`Email`),
   CONSTRAINT `review_ibfk_1` FOREIGN KEY (`Email`) REFERENCES `users` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

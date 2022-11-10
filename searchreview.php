@@ -24,19 +24,40 @@ require_once "session_start.php";
             </ul>
         </div>
         <div class="box" style="width: 80%;">
-			<?php
-			$sql = "SELECT Make, BrandName, Cost, YearMade, ExtraDescription, ReviewText, StarRating FROM Guitar, Review WHERE Review.ReviewID = Guitar.ReviewID";
-			$stmt = $conn -> prepare($sql);
-			$stmt -> excecute();
-			$stmt -> store_result();
-			$stmt -> bind_result($make, $brand_name, $cost, $year_made, $extra_desc, $review_text, $star_rating);
-			while ($stmt -> fetch()) {
-				print($make);
-			}
+		<?php
+			
+			$results = $conn->query("SELECT Username, Make, BrandName, Cost, YearMade, ExtraDescription, ReviewText, StarRating FROM Guitar, Review WHERE Review.ReviewID = Guitar.ReviewID;");
 			?>
+			<table class="search-reviews">;
+			<tr style="font-weight: bold;">
+				<td>Username</td>
+				<td>Make</td>
+				<td>Brand Name</td>
+				<td>Cost</td>
+				<td>Year Made</td>
+				<td>Extra Description</td>
+				<td>Review Text</td>
+				<td>Star Rating</td>
+				</tr>
+			<?php	
+			while($row = $results->fetch_array()) {
+				echo "<tr>";
+				echo "<td>".$row["Username"]."</td>";
+				echo "<td>".$row["Make"]."</td>";
+				echo "<td>".$row["BrandName"]."</td>";
+				echo "<td>".$row["Cost"]."</td>";
+				echo "<td>".$row["YearMade"]."</td>";
+				echo "<td>".$row["ExtraDescription"]."</td>";
+				echo "<td>".$row["ReviewText"]."</td>";
+				echo "<td>".$row["StarRating"]."</td>";
+				echo "</tr>";
+			}   
+			echo "</table>";
+		?>
 			
 		
         </div>
+        
     </body>
 </html>
 

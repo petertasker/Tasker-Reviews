@@ -226,3 +226,8 @@ label.star:before {
   content: '\f006';
   font-family: FontAwesome;
 }
+
+.search-reviews {
+    table-layout: fixed;
+    width: 100%
+}

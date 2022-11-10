@@ -62,7 +62,7 @@ if (isset($_SESSION["username"])) {
                                 } else {   
                                     echo "<br><br><br><br><li class='login-msg'>Incorrect Password</li>";
                                 }
-                            }
+                        }
                             
                         } else {
                             echo "<br><br><br><br><li class='login-msg'>User not found!</li>";
