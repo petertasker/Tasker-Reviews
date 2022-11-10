@@ -33,9 +33,8 @@ require_once "session_start.php";
     }
     // Logs out the user when the link is clicked
     if(isset($_GET['logout'])) {
-      session_unset();
-      header("refresh: 0");
-      }
+      require_once "signout.php";
+    }
     ?>
 
   </div>
