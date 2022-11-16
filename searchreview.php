@@ -27,41 +27,50 @@ require_once "redirect_login.php";
         <?php
 		// Logs out the user when the link is clicked
 		if(isset($_GET['logout'])) {
-		  require_once "signout.php";
+		require_once "signout.php";
 		}	
 		?>
-        <div class="box" style="width: 80%;">
-		<?php
-			
-			$results = $conn->query("SELECT Username, Make, BrandName, Cost, YearMade, ExtraDescription, ReviewText, StarRating FROM Guitar, Review WHERE Review.ReviewID = Guitar.ReviewID;");
+		<div class="box" style="width: 80%;">
+			<h1>Guitar Reviews</h1>
+			<?php
+			$stmt = $conn->prepare("SELECT Username, Make, BrandName, Cost, YearMade, ExtraDescription, ReviewText, StarRating 
+			FROM Guitar, Review WHERE Review.ReviewID = Guitar.ReviewID;");
+			$stmt->execute();
+			$stmt->store_result();
+			$stmt->bind_result($db_username, $db_make, $db_brand_name, $db_cost, $db_year_made, $db_extra_desc, $db_review_text, $db_star_rating);
+			$num_rows = $stmt -> num_rows();
+			if ($num_rows > 0) {
 			?>
 			<table class="search-reviews">
 			<tr style="font-weight: bold;">
-				<td>Username</td>
-				<td>Make</td>
-				<td>Brand Name</td>
-				<td>Cost</td>
-				<td>Year Made</td>
-				<td>Extra Description</td>
-				<td>Review Text</td>
-				<td>Star Rating</td>
-				</tr>
-			<?php	
-			while($row = $results->fetch_array()) {
+			<td>Username</td>
+			<td>Make</td>
+			<td>Brand Name</td>
+			<td>Cost</td>
+			<td>Year Made</td>
+			<td>Extra Description</td>
+			<td>Review Text</td>
+			<td>Star Rating</td>
+			</tr>
+				<?php	
+				while ($stmt -> fetch()) {
 				?>
 				<tr>
-				<td><?php echo $row["Username"];?></td>
-				<td><?php echo $row["Make"];?></td>
-				<td><?php echo $row["BrandName"];?></td>
-				<td><?php echo $row["Cost"];?></td>
-				<td><?php echo $row["YearMade"];?></td>
-				<td><?php echo $row["ExtraDescription"];?></td>
-				<td><?php echo $row["ReviewText"];?></td>
-				<td><?php echo $row["StarRating"];?></td>
+				<td><?php echo $db_username;?></td>
+				<td><?php echo $db_make?></td>
+				<td><?php echo $db_brand_name;?></td>
+				<td><?php echo $db_cost;?></td>
+				<td><?php echo $db_year_made;?></td>
+				<td><?php echo $db_extra_desc;?></td>
+				<td><?php echo $db_review_text;?></td>
+				<td><?php echo $db_star_rating;?></td>
 				</tr>
-			<?php } ?>
+			<?php }
+			} else {
+				echo "Nothing found :(";
+			} 
+			?>
 			</table>
-        </div>
+		</div>
     </body>
 </html>
-
