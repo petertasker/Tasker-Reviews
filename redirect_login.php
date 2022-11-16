@@ -6,4 +6,7 @@ if (!(isset($_SESSION['username']))) {
 if (!(isset($_SESSION['forename']))) {
   header('Location: /guitar-web/linklogin.html');
 }
+if (!(isset($_SESSION['email']))) {
+  header('Location: /guitar-web/linklogin.html');
+}
 ?>

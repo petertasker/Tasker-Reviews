@@ -24,7 +24,7 @@ require_once "session_start.php";
             </ul>
         </div>
         <div class="box">
-            <form>
+            <form action="" method="post">
                 <h1>Review Guitar</h1>
                 <input name="make" class="input" type="text" placeholder="*Make of Guitar"required>
                 <input list="brand" name="brand" class="input" type="text" placeholder="*Brand Name" required>
@@ -51,12 +51,28 @@ require_once "session_start.php";
                     <label class="star star-3" for="star-3"></label>
                     <input class="star star-2" id="star-2" type="radio" name="star" value="2"/>
                     <label class="star star-2" for="star-2"></label>
-                    <input class="star star-1" id="star-1" type="radio" name="star" vale="1"/>
+                    <input class="star star-1" id="star-1" type="radio" name="star" value="1"/>
                     <label class="star star-1" for="star-1"></label>
                 </div>
-                <div><input class="btn" value="submit" type="submit" name="Submit"></div>
+                <div><input class="btn" value="submit" type="submit" name="submit"></div>
                 <div><input style="background-color:red" class="btn"id="btn2" value="reset" type="reset"></div>
             </form>
+            <?php
+                if (isset($_POST["submit"])){
+                    $make = mysqli_real_escape_string($conn, $_POST["make"]);
+                    $brand = mysqli_real_escape_string($conn, $_POST["brand"]);
+                    $cost = mysqli_real_escape_string($conn, $_POST["cost"]);
+                    $year_made = mysqli_real_escape_string($conn, $_POST["year-made"]);
+                    $review_text = mysqli_real_escape_string($conn, $_POST["review-text"]);
+                    $star_rating = mysqli_real_escape_string($conn, $_POST["star"]);
+                    //subquery getting highest number
+                    // add email as session variable
+                    //errors
+                    $username = $_SESSION["username"];
+                    $email = $_SESSION["email"];
+                    $stmt = $conn->prepare("INSERT INTO Review(Username, Review, StarRating, Email) VALUES($username, $review_text, $star_rating, $email)");
+                }
+            ?>
         </div>
     </body>
 </html>

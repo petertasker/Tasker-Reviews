@@ -46,18 +46,19 @@ if (isset($_SESSION["username"])) {
                         $password = mysqli_real_escape_string($conn, $_POST['password']);
 
                         // Prepared statement finding user in the database
-                        $stmt = $conn -> prepare("SELECT Forename, Username, UserPassword FROM Users WHERE Username = ?");
+                        $stmt = $conn -> prepare("SELECT Forename, Username, UserPassword, Email FROM Users WHERE Username = ?");
                         // Bind parameters s - string
                         $stmt -> bind_param("s", $username);
                         $stmt -> execute();
                         $stmt -> store_result();
-                        $stmt -> bind_result($db_forename, $db_username, $db_password);
+                        $stmt -> bind_result($db_forename, $db_username, $db_password, $db_email);
                         $num_rows = $stmt -> num_rows();
                         if ($num_rows > 0) {
                             while ($stmt -> fetch()) {
                                 if (password_verify($password, $db_password)) {
                                     $_SESSION['username'] = $db_username;
                                     $_SESSION['forename'] = $db_forename;
+                                    $_SESSION['email'] = $db_email;
                                     header('Location: /guitar-web/index.php');
                                 } else {   
                                     echo "<br><br><br><br><li class='login-msg'>Incorrect Password</li>";
