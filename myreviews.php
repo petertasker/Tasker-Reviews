@@ -36,10 +36,10 @@ require_once "redirect_login.php";
 			$username = $_SESSION['username'];
 			$stmt = $conn->prepare("SELECT Username, Make, BrandName, Cost, YearMade, ExtraDescription, ReviewText, StarRating 
 			FROM Guitar, Review WHERE Review.ReviewID = Guitar.ReviewID AND Username = ?");
-			$stmt -> bind_param("s", $username);
-			$stmt -> execute();
-			$stmt -> store_result();
-			$stmt -> bind_result($db_username, $db_make, $db_brand_name, $db_cost, $db_year_made, $db_extra_desc, $db_review_text, $db_star_rating);
+			$stmt->bind_param("s", $username);
+			$stmt->execute();
+			$stmt->store_result();
+			$stmt->bind_result($db_username, $db_make, $db_brand_name, $db_cost, $db_year_made, $db_extra_desc, $db_review_text, $db_star_rating);
 			$num_rows = $stmt -> num_rows();
 			if ($num_rows > 0) {
 			?>

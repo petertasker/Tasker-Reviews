@@ -13,7 +13,6 @@ require_once "session_start.php";
         <title>Guitar Reviews</title>
         <link rel="stylesheet" type="text/css" href="style.css">
         <link rel="shortcut icon" href="media/gtr-favicon.ico"/>
-        <script src="script.js"></script>
     </head>
     <body class="form-body">
         <div class="top">
@@ -76,8 +75,8 @@ require_once "session_start.php";
                             }
                             $stmt -> close();
 
-                            if (strlen($username) < 5) {
-                                $errors[] = "Username is not long enough.";
+                            if (strlen($username) < 5 || strlen($username) > 255) {
+                                $errors[] = "Username must be within 5-255 characters.";
                             }
         
                             if (!(preg_match('/[0-9]+/', $password))) {
