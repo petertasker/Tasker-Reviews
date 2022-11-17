@@ -188,6 +188,23 @@ time, mark, audio, video {
     font-size:0.8em;
 }
 
+.filter-btn{
+    background:#2ecc71;
+    width:250px;
+    height: auto;
+    padding-top:11px;
+    padding-bottom:9px;
+    color:white;
+    border-radius:4px;
+    border: #27ae60 1px solid;
+    float: none;
+    margin-top:20px;
+    margin-bottom:20px;
+    margin-left:16px;
+    font-weight:800;
+    font-size:0.8em;
+}
+
 .login-msg {
     list-style-type: none;
     color: black;

@@ -3,6 +3,8 @@
 require_once "config.php";
 require_once "session_start.php";
 require_once "redirect_login.php";
+$filter = "";
+$filter_text = "";
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +34,28 @@ require_once "redirect_login.php";
 		?>
 		<div class="box" style="width: 80%;">
 			<h1>Guitar Reviews</h1>
+			<form action="" method="post">
+				<select name="filter" class="input">
+					<option selected hidden disabled>Select an option</option>
+					<option value="username">Username</option>
+					<option value="make">Make</option>
+					<option value="brand-name">Brand</option>
+					<option value="cost">Cost</option>
+					<option value="year-made">Year Made</option>
+					<option value="extra-desc">Extra Description</option>
+					<option value="review-text">Review Text</option>
+					<option value="star-rating">Star Rating</option>
+				</select>
+				<input type"text" class="input" name="filter-txt">
+				<input type="submit" class="filter-btn" name="submit" value="Filter">
+				
+			</form>
 			<?php
+			if (isset($_POST["submit"])) {
+				$filter = mysqli_real_escape_string($_POST["filter"]);
+				$filter_text = mysqli_real_escape_string($_POST["filter-txt"]);
+			} 
+			//make filter work
 			$stmt = $conn->prepare("SELECT Username, Make, BrandName, Cost, YearMade, ExtraDescription, ReviewText, StarRating 
 			FROM Guitar, Review WHERE Review.ReviewID = Guitar.ReviewID;");
 			$stmt->execute();
