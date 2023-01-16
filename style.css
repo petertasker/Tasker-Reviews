@@ -1,74 +1,300 @@
-/* Box sizing rules */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+/* CSS reset.
+https://meyerweb.com/eric/tools/css/reset/
+*/
 
-/* Remove default margin */
-body,
-h1,
-h2,
-h3,
-h4,
-p,
-figure,
-blockquote,
-dl,
-dd {
-  margin: 0;
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
 }
-
-/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
-ul[role='list'],
-ol[role='list'] {
-  list-style: none;
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
 }
-
-/* Set core root defaults */
-html:focus-within {
-  scroll-behavior: smooth;
-}
-
-/* Set core body defaults */
 body {
-  min-height: 100vh;
-  text-rendering: optimizeSpeed;
-  line-height: 1.5;
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
-/* A elements that don't have a class get default styles */
-a:not([class]) {
-  text-decoration-skip-ink: auto;
+
+
+
+.glyphicon {
+  font-size: 200%;
+  padding: 0.2em 0.2em 0.2em 0.5em;
 }
 
-/* Make images easier to work with */
-img,
-picture {
-  max-width: 100%;
+.navbar {
+  padding: 1em 1em 1em 1em;
+  margin-bottom: 0;
+}
+
+.image {
+  padding: 0% 1% 1% 1%;
+  position: relative;
+  width: 48%;
+}
+
+.image__img {
+  display: block;
+  width: 100%;
+}
+
+.image__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 96%;
+  height: 97.9%;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  font-family: "Quicksand", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s;
+  margin-left: 2%;;
+}
+
+.image__overlay a {
+  color: white;
+}
+
+.image__overlay:hover {
+  opacity: 1;
+}
+
+.image__title {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.image__description {
+  font-size: 1.25em;
+  margin-top: 0.25em;
+}
+
+#index-img-container {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.body {
+  background-color:rgb(36, 36, 56);
+}
+
+.form {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0 auto 0 auto;  
+  width:100%; 
+  text-align:center;
+  margin: 20px 0px 20px 0px;   
+  display: table;     
+}
+
+.form p{
+  font-size:12px;
+  text-decoration: none;
+  color:#ffffff;
+  text-align: left !important;
+}
+
+.form h1{
+  font-size:2em;
+  padding: 1cm;
+  color:#525252;
+}
+
+.form__box{
+  background:white;
+  width:450px;
+  border-radius:6px;
+  margin: 5% auto 0 auto;
+  padding:0px 0px 70px 0px;
+}
+
+.input{
+  background:#ecf0f1;
+  border: #ccc 1px solid;
+  border-bottom: #ccc 2px solid;
+  padding: 8px;
+  width:80%;
+  color:black;
+  margin-top:10px;
+  margin-bottom: 0.5em;
+  font-size:1em;
+  border-radius:4px;
+}
+
+.password{
+  border-radius:4px;
+  background:#ecf0f1;
+  border: #ccc 1px solid;
+  padding: 8px;
+  width:250px;
+  font-size:1em;
+  margin-top:10px;
+}
+
+
+.button-container {
+  width: 656px; 
+  text-align: center;
+  margin-left: 12%;
+
+}
+.button{
+  background: #525252;
+  width:125px;
+  padding-top:5px;
+  padding-bottom:5px;
+  color:white;
+  border-radius:4px;
+  border: #525252 1px solid;
+  float:left;
+  margin: 0 20px 20px 20px;
+  font-weight:800;
+  font-size:0.8em;
+}
+
+
+.home-page-link, .home-page-link:hover, .home-page-link:active, .home-page-link:visited { 
+  color: black; 
+}
+
+p {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: black;
+
+}
+
+textarea {
+  resize: vertical;
+  max-height: 200px;
+  min-height: 100px;
+}
+
+.recommend {
+  font-size: 300%;
+}
+
+.radio-container {
+  align-items: center;
+}
+.form-radio {
+  margin: auto;
   display: block;
 }
 
-/* Inherit fonts for inputs and buttons */
-input,
-button,
-textarea,
-select {
-  font: inherit;
+.table {
+  display: table-cell;
+
 }
 
-/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
-@media (prefers-reduced-motion: reduce) {
-  html:focus-within {
-   scroll-behavior: auto;
-  }
-  
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+.search-review {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0 auto 0 auto;  
+  width:100%; 
+  text-align:center;
+  margin: 20px 0px 20px 0px;
+  border: 3px yellow;
+
+
 }
+
+.search-review h1{
+  font-size:2em;
+  padding: 1cm;
+  color:#525252;
+}
+
+.search-review__box {
+  background:white;
+  width:80%;
+  border-radius:6px;
+  margin: 5% auto 0 auto;
+  padding:0px 0px 0px 0px;
+  table-layout: fixed;
+  justify-content: center;
+  display: flex;
+
+}
+table {
+  align-self: center;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border: 1px solid;
+  
+}
+
+.header {
+  font-weight: bolder;
+}
+
+tr td:last-child {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.search-review__filter {
+  background:white;
+  width:80%;
+  border-radius:6px;
+  margin: 5% auto 0 auto;
+  padding:0px 0px 0px 0px;
+  table-layout: fixed;
+  justify-content: center;
+
+}
+
+.filter-input {
+  background:#ecf0f1;
+  border: #ccc 1px solid;
+  border-bottom: #ccc 2px solid;
+  padding: 8px;
+  width:50%;
+  color:black;
+  margin-top:10px;
+  margin-bottom: 0.5em;
+  font-size:1em;
+  border-radius:4px;
+  height: 3%;
+}
+.filter-button {
+  height: 3%;
+  width: 10%;
+}
+
