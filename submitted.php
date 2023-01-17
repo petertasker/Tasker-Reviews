@@ -3,7 +3,7 @@
 require_once "config.php";
 
 // Make sure a user who is not signed out can access this page
-if (!(isset($_SESSION["username"])) || (!(isset($_SESSION["email"])))) {
+if (!(isset($_SESSION["username"]))) {
     header("Location: index.php");
 } else {
     session_destroy();
