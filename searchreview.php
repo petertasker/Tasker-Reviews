@@ -12,7 +12,7 @@ require_once "config.php";
     <nav class="navbar">
         <?php
         // If session variable is set the user is logged in.
-            if ((isset($_SESSION["username"])) || (isset($_SESSION["email"]))) {
+            if (!(isset($_SESSION["username"]))) {
                 echo "<a href='signout.php'><span class='pull-right glyphicon glyphicon-log-out clickable_space'></span></a>";
                 echo "<a href='myreviews.php'><span class='pull-right glyphicon glyphicon-list clickable_space'></span></a>"; 
             } else {
@@ -24,10 +24,10 @@ require_once "config.php";
     <div class="search-review">
         <div class="search-review__filter">
             <h1>Search and filter</h1>
-            <form>
+            <form method="GET" action="">
                 <label for="keyword">keyword</label>
                 <input name="keyword" class="filter-input">
-                <input type="button" class="filter-button" value="filter">
+                <input type="submit" class="filter-button" value="Filter">
             </form>
         </div>
         <div class="search-review__box">
@@ -46,12 +46,45 @@ require_once "config.php";
                 </tr>
 
                 <?php 
+                    
+                    if ((!(isset($_GET["keyword"]))) || (($_GET["keyword"]) == "")) {
+    
+                  
+                        $sql = "
+                            SELECT make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, Users.username, date_reviewed
+                            FROM Brand, Users, Guitar, Review
+                            WHERE Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id 
+                                AND Users.username = Review.username
+                            ORDER BY date_reviewed DESC";
+                        $stmt = $conn -> prepare($sql);
 
-                    $stmt = $conn -> prepare("
-                        SELECT make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, Users.username, date_reviewed
-                        FROM Brand, Users, Guitar, Review
-                        WHERE Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id 
-                            AND Users.username = Review.username");
+                    } else {
+                        
+                        $keyword = $_GET["keyword"];
+                        $sql = "
+                            SELECT make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, Users.username, date_reviewed
+                            FROM Brand, Users, Guitar, Review
+                            WHERE (Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id 
+                                AND Users.username = Review.username)
+                                AND make LIKE CONCAT('%', ?, '%')
+                                OR Brand.brand_name LIKE CONCAT('%', ?, '%')
+                                OR year_made LIKE CONCAT('%', ?, '%')
+                                OR price LIKE CONCAT('%', ?, '%')
+                                OR extra_info LIKE CONCAT('%', ?, '%')
+                                OR review_text LIKE CONCAT('%', ?, '%')
+                                OR recommend LIKE CONCAT('%', ?, '%')
+                                OR Users.username LIKE CONCAT('%', ?, '%')
+                            GROUP BY make
+                            ORDER BY date_reviewed DESC";
+                        $stmt = $conn -> prepare($sql);
+                        $stmt -> bind_param("ssidssis", $keyword, $keyword, $keyword, $keyword, $keyword, $keyword, $keyword, $keyword);
+                        //$stmt -> bind_param("ssidsssd", $keyword, $keyword, $keyword, $keyword, $keyword, $keyword, $keyword)
+                        
+                    }
+                            
+                        
+                        
+                    
                     $stmt -> execute();
                     $stmt -> bind_result($db_make, $db_brand_name, $db_year_made, $db_price, $db_extra_info, $db_review_text, $db_recommend, $db_username, $db_date_reviewed);
                     while ($stmt -> fetch()) {
