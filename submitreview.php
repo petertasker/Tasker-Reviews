@@ -1,8 +1,11 @@
-<html>
-<?php
-require_once "config.php";
-?>
 <head>
+    <?php
+    
+    require_once "config.php";
+    if (!(isset($_SESSION["username"])) || (!(isset($_SESSION["email"])))) {
+        header("Location: login.php");
+    }
+    ?>
     <title>Tasker Reviews</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -10,109 +13,88 @@ require_once "config.php";
 </head>
 <body class="body">
     <nav class="navbar">
-        <?php
-        // If session variable is set the user is logged in.
-            if (!(isset($_SESSION["username"]))) {
-                echo "<a href='signout.php'><span class='pull-right glyphicon glyphicon-log-out clickable_space'></span></a>";
-                echo "<a href='myreviews.php'><span class='pull-right glyphicon glyphicon-list clickable_space'></span></a>"; 
-            } else {
-                echo "<a href='login.php'><span class='pull-right glyphicon glyphicon-log-in clickable_space'></span></a>";
-            }
-        ?>
+        <a href='signout.php'><span class='pull-right glyphicon glyphicon-log-out clickable_space'></span></a>
+        <a href='myreviews.php'><span class='pull-right glyphicon glyphicon-list clickable_space'></span></a>
         <a href="index.php"><span class="pull-right glyphicon glyphicon-home clickable_space"></span></a>
-    </nav>
-    <div class="search-review">
-        <div class="search-review__filter">
-            <h1>Search and filter</h1>
-            <form method="GET" action="">
-                <label for="keyword">keyword</label>
-                <input name="keyword" class="filter-input">
-                <input type="submit" class="filter-button" value="Filter">
-            </form>
-        </div>
-        <div class="search-review__box">
+    </nav> 
+    <div class="form">
+        <form action="" method="POST">
+            <div class="form__box">
+                <h1>Submit a Review</h1>
+                <p style="color:black; margin-left: 10%">*Required</p>
+                <label for="make">Make:*</label><br>
+                <input type="text" name="make" class="input" lrequired><br>
 
-            <table class="table">
-                <tr class="header">
-                    <td>Make</td>
-                    <td>Manufacturer</td>
-                    <td>Year Made</td>
-                    <td>Price</td>
-                    <td>Extra Info</td>
-                    <td>Review Tetxt</td>
-                    <td>Recommend</td>
-                    <td>Username</td>
-                    <td>Date Reviewed</td>
-                </tr>
+                <label for="brand">Manufacturer:*</label><br>
+                <input list="brands" name="brand" class="input" required><br>
 
-                <?php 
+                <datalist id="brand">
+                    <?php
+                    $stmt = $conn->prepare("SELECT DISTINCT brand_name FROM Brand");
+                    $stmt->execute();
+                    $stmt->store_result();
+                    $stmt->bind_result($db_brand_name);
+                    while ($stmt->fetch()){
+                    ?>
+                        <option value="<?php echo $db_brand_name;?>"></option>
+                    <?php } ?>
+                </datalist>
+
+                <label for="cost">Cost</label><br>
+                <input type="number" name="cost" class="input" min="0.00" max="9999999.99" step="0.01"><br>
+
+                <label for="year-made">Year Made:</label><br>
+                <input type="number" name="year-made" class="input" min="1900" max="<?php echo date("Y");?>"><br>
+
+                <label for="extra-info">Extra Information</label><br>
+                <textarea name="extra-info" class="input" type="text" rows="4" cols="50"></textarea><br>
+
+                <label for="review-text">Review Text*</label><br>
+                <textarea name="review-text" class="input" type="text" rows="4" cols="50" Required></textarea><br>
+
+                <div class="radio-container">
+                    <label><input class="form-radio" type="radio" name="recommendation" value="0" required><span class="recommend glyphicon glyphicon-thumbs-up"></span></label>
+                    <label><input class="form-radio" type="radio" name="recommendation" value="1" required><span class="recommend glyphicon glyphicon-thumbs-down"></span></label>
+                </div>
+                    <br><br>
+
+                <div class="button-container">
+                    <div><input class="button" type="reset" name="reset" value="Reset"></div>
+                    <div><input class="button button-2" type="submit" name="submit" value="submit"></div>
+                </div>
+                <br><br>
+                <div class="error-box">
+                <?php
+                // Validation goes here
+
+                if (isset($_POST["submit"])) {
                     
-                    if ((!(isset($_GET["keyword"]))) || (($_GET["keyword"]) == "")) {
-    
-                  
-                        $sql = "
-                            SELECT make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, Users.username, date_reviewed
-                            FROM Brand, Users, Guitar, Review
-                            WHERE Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id 
-                                AND Users.username = Review.username
-                            ORDER BY date_reviewed DESC";
-                        $stmt = $conn -> prepare($sql);
 
-                    } else {
-                        
-                        $keyword = $_GET["keyword"];
-                        $sql = "
-                            SELECT make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, Users.username, date_reviewed
-                            FROM Brand, Users, Guitar, Review
-                            WHERE (Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id 
-                                AND Users.username = Review.username)
-                                AND make LIKE CONCAT('%', ?, '%')
-                                OR Brand.brand_name LIKE CONCAT('%', ?, '%')
-                                OR year_made LIKE CONCAT('%', ?, '%')
-                                OR price LIKE CONCAT('%', ?, '%')
-                                OR extra_info LIKE CONCAT('%', ?, '%')
-                                OR review_text LIKE CONCAT('%', ?, '%')
-                                OR recommend LIKE CONCAT('%', ?, '%')
-                                OR Users.username LIKE CONCAT('%', ?, '%')
-                            GROUP BY make
-                            ORDER BY date_reviewed DESC";
-                        $stmt = $conn -> prepare($sql);
-                        $stmt -> bind_param("ssidssis", $keyword, $keyword, $keyword, $keyword, $keyword, $keyword, $keyword, $keyword);
-                        //$stmt -> bind_param("ssidsssd", $keyword, $keyword, $keyword, $keyword, $keyword, $keyword, $keyword)
-                        
-                    }
-                            
-                        
-                        
-                    
+                    // Insert new brand details
+                    $stmt = $conn -> prepare("INSERT IGNORE INTO Brand(brand_name) VALUES(?)");
+                    $stmt -> bind_param("s", $_POST["brand"]);
                     $stmt -> execute();
-                    $stmt -> bind_result($db_make, $db_brand_name, $db_year_made, $db_price, $db_extra_info, $db_review_text, $db_recommend, $db_username, $db_date_reviewed);
-                    while ($stmt -> fetch()) {
+
+                    // Insert guitar details
+                    $stmt = $conn -> prepare("INSERT INTO Guitar(make, brand_name, year_made, price, extra_info) VALUES(?, ?, ?, ?, ?)");
+                    $stmt -> bind_param("ssids", $_POST["make"], $_POST["brand"], $_POST["year-made"], $_POST["cost"], $_POST["extra-info"]);
+                    $stmt -> execute();
+
+                    // Insert review details
+                    $stmt = $conn -> prepare("INSERT INTO Review(review_text, recommend, date_reviewed, guitar_id, username) VALUES(?, ?, NOW(), (SELECT MAX(guitar_id) FROM Guitar), ?)");
+                    $stmt -> bind_param("sis", $_POST["review-text"], $_POST["recommendation"], $_SESSION["username"]);
+                    $stmt -> execute();
+
+                    echo "<br><li class='link-msg'>Review Submitted, <a href='myreviews.php'>Click here</a> to see your reviews</li>";
+                
+                    // Stop duplicate data on F5
+                    header("Location: submitted.php");
+
+                }
                 ?>
-                        <tr>
-                            <td><?php echo $db_make; ?></td>
-                            <td><?php echo $db_brand_name; ?></td>
-                            <td><?php echo $db_year_made; ?></td>
-                            <td><?php echo $db_price; ?></td>
-                            <td><?php echo $db_extra_info; ?></td>
-                            <td><?php echo $db_review_text; ?></td>
-                            <?php 
-                            if ($db_recommend == 0) {
-                                ?><td><span class="glyphicon glyphicon-thumbs-up"></span></td>
-                            <?php } else {
-                                ?><td><span class="glyphicon glyphicon-thumbs-down"></span></td>	
-                                <?php
-                            }
-                            ?> 
-                            <td><?php echo $db_username; ?></td>
-                            <td><?php echo $db_date_reviewed; ?></td>
-                        </tr>
-
-
-                    <?php ;}?>
-            </table>
-            
-        </div>
-    </div>
+                </div>
+            </div>
+        </form>  
+    </div> 
 </body>
 </html>
