@@ -1,7 +1,7 @@
-<html>
 <?php
 require_once "config.php";
 ?>
+<html>
 <head>
     <title>Tasker Reviews</title>
     <meta charset="utf-8">
