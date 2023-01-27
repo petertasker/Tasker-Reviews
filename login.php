@@ -1,6 +1,6 @@
 <?php
 require_once "config.php";
-if ((isset($_SESSION["username"])) || (isset($_SESSION["email"]))) {
+if (isset($_SESSION["username"])) {
     header("Location: index.php");
 }
 ?>
