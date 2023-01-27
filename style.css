@@ -243,7 +243,7 @@ textarea {
 
 .search-review__box {
   background:white;
-  width:80%;
+  width: 1500px;
   border-radius:6px;
   margin: 5% auto 0 auto;
   padding:0px 0px 0px 0px;
@@ -296,4 +296,8 @@ tr td:last-child {
 .filter-button {
   height: 3%;
   width: 10%;
+}
+
+.link-msg {
+  margin:10% 15% 0 15%;
 }

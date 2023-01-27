@@ -12,7 +12,7 @@ require_once "config.php";
     <nav class="navbar">
         <?php
         // If session variable is set the user is logged in.
-            if (!(isset($_SESSION["username"]))) {
+            if (isset($_SESSION["username"])) {
                 echo "<a href='signout.php'><span class='pull-right glyphicon glyphicon-log-out clickable_space'></span></a>";
                 echo "<a href='myreviews.php'><span class='pull-right glyphicon glyphicon-list clickable_space'></span></a>"; 
             } else {
@@ -24,13 +24,16 @@ require_once "config.php";
     <div class="search-review">
         <div class="search-review__filter">
             <h1>Search and filter</h1>
-            <form method="GET" action="">
-                <label for="keyword">keyword</label>
-                <input name="keyword" class="filter-input">
-                <input type="submit" class="filter-button" value="Filter">
+            <form style="display: inline-block" method="GET" action="filterreview.php">
+                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-filter"</span></button>
+            </form>
+            <form style="display: inline-block" method="GET" action="searchreview.php">
+                <button class="btn btn-default"><span class="glyphicon glyphicon-refresh"</span></button>
             </form>
         </div>
         <div class="search-review__box">
+
+
 
             <table class="table">
                 <tr class="header">
@@ -39,52 +42,65 @@ require_once "config.php";
                     <td>Year Made</td>
                     <td>Price</td>
                     <td>Extra Info</td>
-                    <td>Review Tetxt</td>
+                    <td>Review Text</td>
                     <td>Recommend</td>
                     <td>Username</td>
                     <td>Date Reviewed</td>
                 </tr>
 
-                <?php 
-                    
-                    if ((!(isset($_GET["keyword"]))) || (($_GET["keyword"]) == "")) {
-    
-                  
-                        $sql = "
+                <?php    
+                if (count($_GET) == 0) {
+                    $sql = "
                             SELECT make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, Users.username, date_reviewed
                             FROM Brand, Users, Guitar, Review
                             WHERE Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id 
                                 AND Users.username = Review.username
                             ORDER BY date_reviewed DESC";
-                        $stmt = $conn -> prepare($sql);
+                    $stmt = $conn -> prepare($sql);
+                    
+                } else {
 
-                    } else {
-                        
-                        $keyword = $_GET["keyword"];
-                        $sql = "
+                    $sql = "
                             SELECT make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, Users.username, date_reviewed
                             FROM Brand, Users, Guitar, Review
-                            WHERE (Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id 
-                                AND Users.username = Review.username)
-                                AND make LIKE CONCAT('%', ?, '%')
-                                OR Brand.brand_name LIKE CONCAT('%', ?, '%')
-                                OR year_made LIKE CONCAT('%', ?, '%')
-                                OR price LIKE CONCAT('%', ?, '%')
-                                OR extra_info LIKE CONCAT('%', ?, '%')
-                                OR review_text LIKE CONCAT('%', ?, '%')
-                                OR recommend LIKE CONCAT('%', ?, '%')
-                                OR Users.username LIKE CONCAT('%', ?, '%')
-                            GROUP BY make
-                            ORDER BY date_reviewed DESC";
-                        $stmt = $conn -> prepare($sql);
-                        $stmt -> bind_param("ssidssis", $keyword, $keyword, $keyword, $keyword, $keyword, $keyword, $keyword, $keyword);
-                        //$stmt -> bind_param("ssidsssd", $keyword, $keyword, $keyword, $keyword, $keyword, $keyword, $keyword)
-                        
-                    }
-                            
-                        
-                        
+                            WHERE Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id AND Users.username = Review.username
+                                AND make LIKE ?
+                                AND Brand.brand_name LIKE ?
+                                AND Users.username LIKE ?
+                                AND recommend LIKE ?
+                                AND price >= ? AND price <= ?
+                                AND year_made LIKE ?
+                                AND extra_info LIKE ?
+                                ORDER BY date_reviewed DESC";
                     
+                    // concatenate for wildcard
+                    $make = "%" . $_GET["make"] . "%";
+                    $brand_name = "%" . $_GET["brand"] . "%";
+                    $recommend = "%" . $_GET["recommendation"] . "%";
+                    $username = "%" . $_GET["username"] . "%";
+                    $year_made = "%" . $_GET["year-made"] . "%";
+                    $extra_info = "%" . $_GET["extra-info"] . "%";
+                            
+                    
+                                        
+                    $cost_high = $_GET["cost-high"];
+                    $cost_low = $_GET["cost-low"];
+                    
+                    // If lower > higher
+                    if ($cost_high < $cost_low) {
+                        $cost_high = 999999;
+                    }
+                    
+                    // Two decimal places format for SQL
+                    $cost_low = number_format((float)$cost_low, 2, '.', '');
+                    $cost_high = number_format((float)$cost_high, 2, '.', '');
+                    
+    
+                    
+                    $stmt = $conn -> prepare($sql);
+                    $stmt -> bind_param("ssssddss", $make, $brand_name, $username, $recommend, $cost_low, $cost_high, $year_made, $extra_info);
+
+                  }                  
                     $stmt -> execute();
                     $stmt -> bind_result($db_make, $db_brand_name, $db_year_made, $db_price, $db_extra_info, $db_review_text, $db_recommend, $db_username, $db_date_reviewed);
                     while ($stmt -> fetch()) {
@@ -97,7 +113,7 @@ require_once "config.php";
                             <td><?php echo $db_extra_info; ?></td>
                             <td><?php echo $db_review_text; ?></td>
                             <?php 
-                            if ($db_recommend == 0) {
+                            if ($db_recommend == 1) {
                                 ?><td><span class="glyphicon glyphicon-thumbs-up"></span></td>
                             <?php } else {
                                 ?><td><span class="glyphicon glyphicon-thumbs-down"></span></td>	

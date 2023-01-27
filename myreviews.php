@@ -26,22 +26,22 @@ if (!(isset($_SESSION["username"]))) {
                     <td>Year Made</td>
                     <td>Price</td>
                     <td>Extra Info</td>
-                    <td>Review Tetxt</td>
+                    <td>Review Text</td>
                     <td>Recommend</td>
                     <td>Username</td>
                     <td>Action</td>
                 </tr>
                 <?php 
-                        $sql = "
-                            SELECT review_id, make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, date_reviewed
-                            FROM Brand, Guitar, Review
-                            WHERE Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id 
-                
-                            ORDER BY date_reviewed DESC";
-                        $stmt = $conn -> prepare($sql);
- 
+                    $sql = "
+                        SELECT Guitar.guitar_id, make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, date_reviewed
+                        FROM Brand, Guitar, Review, Users
+                        WHERE Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id AND Users.username = Review.username
+                        AND Users.username = ?
+                        ORDER BY date_reviewed DESC";
+                    $stmt = $conn -> prepare($sql);
+                    $stmt -> bind_param("s", $_SESSION["username"]);
                     $stmt -> execute();
-                    $stmt -> bind_result($db_review_id, $db_make, $db_brand_name, $db_year_made, $db_price, $db_extra_info, $db_review_text, $db_recommend, $db_date_reviewed);
+                    $stmt -> bind_result($db_guitar_id, $db_make, $db_brand_name, $db_year_made, $db_price, $db_extra_info, $db_review_text, $db_recommend, $db_date_reviewed);
                     while ($stmt -> fetch()) {
                 ?>
                         <tr>
@@ -61,10 +61,14 @@ if (!(isset($_SESSION["username"]))) {
                             ?> 
                             <td><?php echo $db_date_reviewed; ?></td>
                             <td>
-								<form action="modifiedreview.php?review_id=<?php $db_review_id ?>" method="GET">
-									<input type="submit" name="edit" value="Edit">
-									<input type="submit" name="delete" value="Delete">
-								</form>
+								<div style="display:flex;">
+									<form action="editreview.php" method="GET">
+										<button value="<?php echo $db_guitar_id;?>" type="submit" name="guitar_id">Edit</button>
+									</form>
+									<form action="deletedreview.php" method="GET">
+										<button value="<?php echo $db_guitar_id;?>" type="submit" name="guitar_id">Delete</button>
+									</form>
+								</div>
 							</td>
                         </tr>
 
