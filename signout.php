@@ -1,4 +1,3 @@
-<html>
 <?php
 require_once "config.php";
 
@@ -9,7 +8,7 @@ if (!(isset($_SESSION["username"]))) {
     session_destroy();
 }
 ?>
-
+<html>
 <head>
     <title>Tasker Reviews</title>
     <meta charset="utf-8">

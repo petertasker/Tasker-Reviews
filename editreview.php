@@ -1,31 +1,26 @@
 <?php
-    
-    require_once "config.php";
-    if (!(isset($_SESSION["username"]))) {
-        header("Location: login.php");
-    }
-// Guitar.guitar_id, make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, Users.username
-    
-    $stmt = $conn -> prepare("SELECT make, 
-		Brand.brand_name year_made, price, extra_info, review_text
-		recommend
-		FROM Guitar, Brand, Review, Users
-		WHERE Brand.brand_name = Guitar.brand_name
-			AND Guitar.guitar_id = Review.guitar_id
-			AND Users.username = Review.Username
-			AND Guitar.guitar_id = ?");
-	$stmt -> bind_param("i", $_GET["guitar_id"]);
-	$stmt -> execute();
-	while ($stmt -> fetch()) {
-		$stmt -> bind_result($db_make, $db_brand_name, $db_year_made,
-		$db_price, $db_extra_info, $db_review_text, $db_recommend);
-	}
-	
-	echo $db_make;
-			
-   
-    
-    ?>
+require_once "config.php";
+if (!(isset($_SESSION["username"]))) {
+    header("Location: login.php");
+}
+
+$stmt = $conn -> prepare("SELECT make, 
+    Brand.brand_name, year_made, price, extra_info, review_text,
+    recommend
+    FROM Guitar, Brand, Review, Users
+    WHERE Brand.brand_name = Guitar.brand_name
+        AND Guitar.guitar_id = Review.guitar_id
+        AND Users.username = Review.Username
+        AND Guitar.guitar_id = ?");
+$stmt -> bind_param("i", $_GET["guitar_id"]);
+$stmt -> execute();
+$stmt -> bind_result($db_make, $db_brand_name, $db_year_made,
+    $db_price, $db_extra_info, $db_review_text, $db_recommend);
+
+// Fetch results
+while ($stmt -> fetch()) {
+}
+?>
 <html>
 <head>
     <title>Tasker Reviews</title>
@@ -45,27 +40,36 @@
                 <h1>Edit Review</h1>
                 <p style="color:black; margin-left: 10%">*Required</p>
                 <label for="make">Make:*</label><br>
-                <input type="text" name="make" class="input" required><br>
+                <input type="text" name="make" class="input" value="<?php echo $db_make; ?>"required><br>
 
                 <label for="brand">Manufacturer:*</label><br>
-                <input type="text" name="brand" class="input" required><br>
+                <input type="text" name="brand" class="input" value="<?php echo $db_brand_name;?>"required><br>
 
 
                 <label for="cost">Cost</label><br>
-                <input type="number" name="cost" class="input" min="0.00" max="9999999.99" step="0.01"><br>
+                <input type="number" name="cost" class="input" min="0.00" max="9999999.99" step="0.01" value="<?php echo $db_price;?>"><br>
 
                 <label for="year-made">Year Made:</label><br>
-                <input type="number" name="year-made" class="input" min="1900" max="<?php echo date("Y");?>"><br>
+                <input type="number" name="year-made" class="input" min="1900" max="<?php echo date("Y");?>" value="<?php echo $db_year_made?>"><br>
 
                 <label for="extra-info">Extra Information:</label><br>
-                <textarea name="extra-info" class="input" type="text" rows="4" cols="50"></textarea><br>
+                <textarea name="extra-info" class="input" type="text" rows="4" cols="50"><?php echo $db_extra_info;?></textarea><br>
 
                 <label for="review-text">Review Text:*</label><br>
-                <textarea name="review-text" class="input" type="text" rows="4" cols="50" Required></textarea><br>
+                <textarea name="review-text" class="input" type="text" rows="4" cols="50" Required><?php echo $db_review_text;?></textarea><br>
 
                 <div class="radio-container">
-                    <label><input class="form-radio" type="radio" name="recommendation" value="0" required><span class="recommend glyphicon glyphicon-thumbs-up"></span></label>
+                    <?php
+                    // html checked change for recommend
+                    if ($db_recommend == 1) { ?>
+                        <label><input class="form-radio" type="radio" name="recommendation" value="0" required><span class="recommend glyphicon glyphicon-thumbs-up"></span></label>
+                    <label><input class="form-radio" type="radio" name="recommendation" value="1" checked="checked" required><span class="recommend glyphicon glyphicon-thumbs-down"></span></label>
+                    <?php
+                    } else { ?>
+                        <label><input class="form-radio" type="radio" name="recommendation" value="0" checked="checked" required><span class="recommend glyphicon glyphicon-thumbs-up"></span></label>
                     <label><input class="form-radio" type="radio" name="recommendation" value="1" required><span class="recommend glyphicon glyphicon-thumbs-down"></span></label>
+                    <?php } ?>
+                    
                 </div>
                     <br><br>
 
@@ -76,31 +80,32 @@
                 <br><br>
                 <div class="error-box">
                 <?php
-                // Validation goes here
-
                 if (isset($_POST["submit"])) {
                     
-
                     // Insert new brand details
                     $stmt = $conn -> prepare("INSERT IGNORE INTO Brand(brand_name) VALUES(?)");
                     $stmt -> bind_param("s", $_POST["brand"]);
                     $stmt -> execute();
-
-                    // Insert guitar details
-                    $stmt = $conn -> prepare("INSERT INTO Guitar(make, brand_name, year_made, price, extra_info) VALUES(?, ?, ?, ?, ?)");
-                    $stmt -> bind_param("ssids", $_POST["make"], $_POST["brand"], $_POST["year-made"], $_POST["cost"], $_POST["extra-info"]);
+                    
+                    // Update guitar details
+                    $stmt = $conn -> prepare("UPDATE Guitar
+                        SET make = ?, brand_name = ?, year_made = ?, price = ?, extra_info = ?
+                        WHERE guitar_id = ?");
+                    $stmt -> bind_param("sssdsi", $_POST["make"], $_POST["brand"], $_POST["year-made"], 
+                        $_POST["price"], $_POST["extra-info"], $_GET["guitar_id"]);
                     $stmt -> execute();
-
-                    // Insert review details
-                    $stmt = $conn -> prepare("INSERT INTO Review(review_text, recommend, date_reviewed, guitar_id, username) VALUES(?, ?, NOW(), (SELECT MAX(guitar_id) FROM Guitar), ?)");
-                    $stmt -> bind_param("sis", $_POST["review-text"], $_POST["recommendation"], $_SESSION["username"]);
+                    
+                    // Update review details
+                    $stmt = $conn -> prepare("UPDATE Review
+                        SET review_text = ?, recommend = ?, date_reviewed = Now()
+                        WHERE guitar_id = ?");
+                    $stmt -> bind_param("sis", $_POST["review-text"], $_POST["username"], $_GET["guitar_id"]);
                     $stmt -> execute();
 
                     echo "<br><li class='link-msg'>Review Submitted, <a href='myreviews.php'>Click here</a> to see your reviews</li>";
                 
                     // Stop duplicate data on F5
-                    header("Location: submitted.php");
-
+                    header("Location: myreviews.php");
                 }
                 ?>
                 </div>

@@ -1,10 +1,10 @@
-<html>
 <?php
 require_once "config.php";
 if (!(isset($_SESSION["username"]))) {
 	header("Location: index.php");
 }
 ?>
+<html>
 <head>
     <title>Tasker Reviews</title>
     <meta charset="utf-8">
@@ -17,9 +17,5 @@ if (!(isset($_SESSION["username"]))) {
 		<a href="myreviews.php"><span class="pull-right glyphicon glyphicon-list clickable_space"></span></a>"
         <a href="index.php"><span class="pull-right glyphicon glyphicon-home clickable_space"></span></a>
     </nav>
-    <?php
-
-	}
-	?>
  </body>
  </html>

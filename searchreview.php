@@ -1,7 +1,7 @@
-<html>
 <?php
 require_once "config.php";
 ?>
+<html>
 <head>
     <title>Tasker Reviews</title>
     <meta charset="utf-8">
@@ -12,12 +12,12 @@ require_once "config.php";
     <nav class="navbar">
         <?php
         // If session variable is set the user is logged in.
-            if (isset($_SESSION["username"])) {
-                echo "<a href='signout.php'><span class='pull-right glyphicon glyphicon-log-out clickable_space'></span></a>";
-                echo "<a href='myreviews.php'><span class='pull-right glyphicon glyphicon-list clickable_space'></span></a>"; 
-            } else {
-                echo "<a href='login.php'><span class='pull-right glyphicon glyphicon-log-in clickable_space'></span></a>";
-            }
+        if (isset($_SESSION["username"])) {
+            echo "<a href='signout.php'><span class='pull-right glyphicon glyphicon-log-out clickable_space'></span></a>";
+            echo "<a href='myreviews.php'><span class='pull-right glyphicon glyphicon-list clickable_space'></span></a>"; 
+        } else {
+            echo "<a href='login.php'><span class='pull-right glyphicon glyphicon-log-in clickable_space'></span></a>";
+        }
         ?>
         <a href="index.php"><span class="pull-right glyphicon glyphicon-home clickable_space"></span></a>
     </nav>
@@ -48,7 +48,8 @@ require_once "config.php";
                     <td>Date Reviewed</td>
                 </tr>
 
-                <?php    
+                <?php   
+                // If user there are no filter variables in the URL 
                 if (count($_GET) == 0) {
                     $sql = "
                             SELECT make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, Users.username, date_reviewed
@@ -76,15 +77,20 @@ require_once "config.php";
                     // concatenate for wildcard
                     $make = "%" . $_GET["make"] . "%";
                     $brand_name = "%" . $_GET["brand"] . "%";
-                    $recommend = "%" . $_GET["recommendation"] . "%";
                     $username = "%" . $_GET["username"] . "%";
                     $year_made = "%" . $_GET["year-made"] . "%";
-                    $extra_info = "%" . $_GET["extra-info"] . "%";
-                            
-                    
-                                        
+                    $extra_info = "%" . $_GET["extra-info"] . "%";               
                     $cost_high = $_GET["cost-high"];
                     $cost_low = $_GET["cost-low"];
+
+                    
+                    // Unchecked radio buttons do not appear in URL
+                    if (isset($_GET["recommendation"])) {
+                        $recommend = "%" . $_GET["recommendation"] . "%";
+                    } else {
+                        $recommend = "%%";
+                    }
+                
                     
                     // If lower > higher
                     if ($cost_high < $cost_low) {
@@ -95,12 +101,10 @@ require_once "config.php";
                     $cost_low = number_format((float)$cost_low, 2, '.', '');
                     $cost_high = number_format((float)$cost_high, 2, '.', '');
                     
-    
-                    
                     $stmt = $conn -> prepare($sql);
                     $stmt -> bind_param("ssssddss", $make, $brand_name, $username, $recommend, $cost_low, $cost_high, $year_made, $extra_info);
 
-                  }                  
+                }                  
                     $stmt -> execute();
                     $stmt -> bind_result($db_make, $db_brand_name, $db_year_made, $db_price, $db_extra_info, $db_review_text, $db_recommend, $db_username, $db_date_reviewed);
                     while ($stmt -> fetch()) {
@@ -117,15 +121,13 @@ require_once "config.php";
                                 ?><td><span class="glyphicon glyphicon-thumbs-up"></span></td>
                             <?php } else {
                                 ?><td><span class="glyphicon glyphicon-thumbs-down"></span></td>	
-                                <?php
-                            }
-                            ?> 
+                                <?php } ?> 
                             <td><?php echo $db_username; ?></td>
                             <td><?php echo $db_date_reviewed; ?></td>
                         </tr>
 
 
-                    <?php ;}?>
+                    <?php } ?>
             </table>
             
         </div>
