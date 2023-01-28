@@ -1,3 +1,4 @@
+<html>
 <head>
     <?php
     
@@ -23,7 +24,7 @@
                 <h1>Submit a Review</h1>
                 <p style="color:black; margin-left: 10%">*Required</p>
                 <label for="make">Make:*</label><br>
-                <input type="text" name="make" class="input" lrequired><br>
+                <input type="text" name="make" class="input" required><br>
 
                 <label for="brand">Manufacturer:*</label><br>
                 <input list="brands" name="brand" class="input" required><br>
@@ -46,10 +47,10 @@
                 <label for="year-made">Year Made:</label><br>
                 <input type="number" name="year-made" class="input" min="1900" max="<?php echo date("Y");?>"><br>
 
-                <label for="extra-info">Extra Information</label><br>
+                <label for="extra-info">Extra Information:</label><br>
                 <textarea name="extra-info" class="input" type="text" rows="4" cols="50"></textarea><br>
 
-                <label for="review-text">Review Text*</label><br>
+                <label for="review-text">Review Text:*</label><br>
                 <textarea name="review-text" class="input" type="text" rows="4" cols="50" Required></textarea><br>
 
                 <div class="radio-container">

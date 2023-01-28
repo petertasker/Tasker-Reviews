@@ -5,8 +5,6 @@ require_once "config.php";
 // Make sure a user who is not signed out can access this page
 if (!(isset($_SESSION["username"]))) {
     header("Location: index.php");
-} else {
-    session_destroy();
 }
 ?>
 
@@ -18,12 +16,13 @@ if (!(isset($_SESSION["username"]))) {
 </head>
 <body class="body">
     <nav class="navbar">
-    
-        <a href='login.php'><span class='pull-right glyphicon glyphicon-log-in clickable_space'></span></a>
-        <a href="index.php"><span class="pull-right glyphicon glyphicon-home clickable_space"></span></a>
+    <a href="signout.php"><span class="pull-right glyphicon glyphicon-log-out clickable_space"></span></a>
+    <a href="myreviews.php"><span class="pull-right glyphicon glyphicon-list clickable_space"></span></a>"
+    <a href="index.php"><span class="pull-right glyphicon glyphicon-home clickable_space"></span></a>
     </nav>
    
     <div class="form__box">
+        <br>
         <li class="link-msg">Thank you for submitting your review. <a href='index.php'>Click here</a> to go to the home page, or <a href="myreviews.php">click here </a>to see your reviews.</li>
     </div>
     
