@@ -24,7 +24,8 @@ if (isset($_SESSION["username"])) {
                 <input type="text" name="username" class="input" required><br>
 
                 <label for="password">Password:</label><br>
-                <input type="password" name="password" class="input" required><br>
+                <input type="password" name="password" id="password" class="input" required>
+
 
                 <div class="button-container">
                     <div><input class="button" type="reset" name="reset" value="Reset"></div>
@@ -55,6 +56,10 @@ if (isset($_SESSION["username"])) {
                                     // Set session variables and redirect
                                     $_SESSION["username"] = $db_username;
                                     $_SESSION["email-address"] = $db_email;
+                                    // If admin account
+                                    if ($db_username == "admin") {
+                                        $_SESSION["admin"] = True;
+                                    }
                                     header("Location: index.php");
                                 } else {
                                     $errors[] = "Password is incorrect";

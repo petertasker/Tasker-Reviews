@@ -33,12 +33,14 @@ if (!(isset($_SESSION["username"]))) {
                     <?php
                     $stmt = $conn->prepare("SELECT DISTINCT brand_name FROM Brand");
                     $stmt->execute();
-                    $stmt->store_result();
                     $stmt->bind_result($db_brand_name);
                     while ($stmt->fetch()){
+                    
+                    echo "<option value=".$db_brand_name."></option>";
+                    }
                     ?>
-                        <option value="<?php echo $db_brand_name;?>"></option>
-                    <?php } ?>
+                    
+                    
                 </datalist>
 
                 <label for="cost">Cost</label><br>
@@ -67,6 +69,12 @@ if (!(isset($_SESSION["username"]))) {
                 <div class="error-box">
                 <?php
                 // Validation goes here
+                if $_POST["year-made"] == "" {
+                    $year_made = Null; 
+                } else {
+                    $year_made = $_POST["year-made"];
+                }
+
 
                 if (isset($_POST["submit"])) {
                 // Insert new brand details
@@ -76,7 +84,7 @@ if (!(isset($_SESSION["username"]))) {
 
                 // Insert guitar details
                 $stmt = $conn -> prepare("INSERT INTO Guitar(make, brand_name, year_made, price, extra_info) VALUES(?, ?, ?, ?, ?)");
-                $stmt -> bind_param("ssids", $_POST["make"], $_POST["brand"], $_POST["year-made"], $_POST["cost"], $_POST["extra-info"]);
+                $stmt -> bind_param("ssids", $_POST["make"], $_POST["brand"], $year_made, $_POST["cost"], $_POST["extra-info"]);
                 $stmt -> execute();
 
                 // Insert review details

@@ -1,6 +1,6 @@
 <?php
 require_once "config.php";
-if ((isset($_SESSION["username"])) || (isset($_SESSION["email"]))) {
+if (isset($_SESSION["username"])) {
     header("Location: index.php");
 }
 ?>
@@ -121,6 +121,10 @@ if ((isset($_SESSION["username"])) || (isset($_SESSION["email"]))) {
                         // 3. Declare session variables
                         $_SESSION['username'] = $_POST["username"];
                         $_SESSION["email-address"] = $_POST["email-address"];
+                        // If admin account
+                        if ($db_username == "admin") {
+                            $_SESSION["admin"] = True;
+                        }
 
                         // 4. Let user traverse website
                         echo "<br><li>Successfully created account!, please <a class='home-page-link' href='index.php'>click here</a> to go to the home page.</li>";

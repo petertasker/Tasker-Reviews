@@ -23,6 +23,7 @@ if (!(isset($_SESSION["username"]))) {
     </nav>
    
     <div class="form__box">
+        <br>
         <li class="link-msg">You have been logged out. <a href='index.php'>Click here</a> to go to the home page.</li>
     </div>
     
