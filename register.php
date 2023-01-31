@@ -122,7 +122,7 @@ if (isset($_SESSION["username"])) {
                         $_SESSION['username'] = $_POST["username"];
                         $_SESSION["email-address"] = $_POST["email-address"];
                         // If admin account
-                        if ($db_username == "admin") {
+                        if ($_POST["username"] == "admin") {
                             $_SESSION["admin"] = True;
                         }
 

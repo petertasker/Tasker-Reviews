@@ -1,6 +1,6 @@
 <?php
 require_once "config.php";
-if (!($_SESSION["admin"])) {
+if ($_SESSION["username"] != "admin") {
 	header("Location: index.php");
 }
 
@@ -35,6 +35,7 @@ while ($stmt -> fetch()){
         <form method="POST">
             <div class="form__box">
                 <h1>Edit Brand</h1>
+                <h2>Deleting a brand will delte all related reviews</h2>
                 <label for="make">Brand Name:</label><br>
                 <input disabled type="text" class="input" value="<?php echo $_GET["brand_name"]; ?>"><br>
 
