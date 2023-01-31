@@ -20,7 +20,6 @@ if (!($_SESSION["admin"])) {
     <div class="search-review">
     <div class="search-review__filter">
 		<h1>Edit Brand</h1>
-		<h2>All associations of a review will be deleted along with the brand</h2>
 	</div>
 	</div>
 		<div class="search-review__box">
@@ -53,7 +52,7 @@ if (!($_SESSION["admin"])) {
 							<form action="editbrand.php" method="GET">
 								<button value="<?php echo $db_brand_name;?>" type="submit" name="brand_name">Edit</button>
 							</form>
-							<form action="deletedreview.php" method="GET">
+							<form action="deletedbrand.php" method="GET">
 								<button value="<?php echo $db_brand_name;?>" type="submit" name="brand_name">Delete</button>
 							</form>
 						</div>

@@ -1,7 +1,14 @@
 <?php
 require_once "config.php";
-if (!(isset($_GET["brand_name"])) || ((!(isset($_SESSION["admin"]))))) {
-    header("Location: index.php");
+if (!($_SESSION["admin"])) {
+	header("Location: index.php");
+}
+
+$stmt = $conn -> prepare("SELECT country_of_origin, website_url, date_established FROM Brand WHERE brand_name = ?");
+$stmt -> bind_param("s", $_GET["brand_name"]);
+$stmt -> execute();
+$stmt -> bind_result($db_country, $db_url, $db_date);
+while ($stmt -> fetch()){
 }
 ?>
 <html>
@@ -25,24 +32,46 @@ if (!(isset($_GET["brand_name"])) || ((!(isset($_SESSION["admin"]))))) {
         <a href="index.php"><span class="pull-right glyphicon glyphicon-home clickable_space"></span></a>
     </nav>
     <div class="form">
-        <form action="searchreview.php" method="GET">
+        <form method="POST">
             <div class="form__box">
-                <h1>Filter Review</h1>
+                <h1>Edit Brand</h1>
                 <label for="make">Brand Name:</label><br>
-                <input disabled type="text" name="make" class="input" value="<?php echo $_GET["brand_name"]; ?>"><br>
+                <input disabled type="text" class="input" value="<?php echo $_GET["brand_name"]; ?>"><br>
 
                 <label for="brand">Country of Origin:</label><br>
-                <input type="text" name="brand" class="input"><br>
+                <input type="text" name="country" class="input" value="<?php echo $db_country; ?>"><br>
 
                 <label for="brand">Website Url:</label><br>
-                <input type="text" name="brand" class="input"><br>
+                <input type="text" name="url" class="input" value="<?php echo $db_url; ?>"><br>
 
-                <label for="brand">Date Established:</label><br>
-                <input type="text" name="brand" class="input"><br>
+                <label for="brand">Date Established (YYYY-MM-DD):</label><br>
+                <input type="text" name="date" class="input" value="<?php echo substr($db_date,0 ,10); ?>"><br>
                 
                 <div class="button-container">
                     <div><input class="button" type="reset" name="reset" value="Reset"></div>
                     <div><input class="button button-2" type="submit" name="submit" value="submit"></div>
+                </div>
+                <div>
+                <?php 
+                
+                if(isset($_POST["submit"])) {
+                    
+                    // Validation
+                
+                    
+                    $stmt = $conn -> prepare("UPDATE Brand 
+                    SET country_of_origin = ?, website_url = ?, 
+                    date_established = ? 
+                    WHERE brand_name = ?");
+
+                    $stmt -> bind_param("ssss", $_POST["country"], $_POST["url"], $_POST["date"], $_GET["brand_name"]);
+                    $stmt -> execute();
+                    header("Location: brands.php");
+                    echo "<li>Is your date in the correct format?</li>";
+                }
+                    
+                            
+                ?>
                 </div>
             </div>
         </form>  

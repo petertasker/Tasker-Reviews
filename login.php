@@ -59,6 +59,7 @@ if (isset($_SESSION["username"])) {
                                     // If admin account
                                     if ($db_username == "admin") {
                                         $_SESSION["admin"] = True;
+                                        header("Location: admin.php");
                                     }
                                     header("Location: index.php");
                                 } else {
