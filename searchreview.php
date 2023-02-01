@@ -1,5 +1,9 @@
 <?php
 require_once "config.php";
+
+// Used in filterreview.php
+$_SESSION["previous_location"] = "searchreview.php";
+
 ?>
 <html>
 <head>
@@ -24,6 +28,7 @@ require_once "config.php";
     <div class="search-review">
         <div class="search-review__filter">
             <h1>Search and filter</h1>
+
             <form style="display: inline-block" method="GET" action="filterreview.php">
                 <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-filter"</span></button>
             </form>

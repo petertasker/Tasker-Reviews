@@ -1,3 +1,7 @@
+<?php 
+require_once "config.php"
+?>
+
 <html>
 <head>
     <title>Tasker Reviews</title>
@@ -19,7 +23,7 @@
         <a href="index.php"><span class="pull-right glyphicon glyphicon-home clickable_space"></span></a>
     </nav>
     <div class="form">
-        <form action="searchreview.php" method="GET">
+        <form action="<?php echo $_SESSION["previous_location"]; ?>" method="GET">
             <div class="form__box">
                 <h1>Filter Review</h1>
                 <label for="make">Make:</label><br>
@@ -27,7 +31,6 @@
 
                 <label for="brand">Manufacturer:</label><br>
                 <input type="text" name="brand" class="input"><br>
-
                 <div>
                 <label for="cost">Cost (between):</label><br>
                 <input style="width:40%" type="number" name="cost-low" class="input" min="0.00" max="9999999.99" step="0.01" value="0">
@@ -49,7 +52,7 @@
                 <input type="text" name="username" class="input"><br><br>
                 
                 <div class="button-container">
-                    <div><input class="button" type="reset" name="reset" value="Reset"></div>
+                    <div><input class="button" type="reset" name="reset" value="reset"></div>
                     <div><input class="button button-2" type="submit" name="submit" value="submit"></div>
                 </div>
             </div>

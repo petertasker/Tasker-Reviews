@@ -82,6 +82,15 @@ while ($stmt -> fetch()) {
                 <?php
                 if (isset($_POST["submit"])) {
                     
+                    // Insert null values instead of empty strings
+                    if ($_POST["year-made"] == "") {
+                        $_POST["year-made"] = NULL;
+                    }
+                    
+                    if ($_POST["cost"] == "") {
+                        $_POST["cost"] = NULL;
+                    }
+                    
                     // Insert new brand details
                     $stmt = $conn -> prepare("INSERT IGNORE INTO Brand(brand_name) VALUES(?)");
                     $stmt -> bind_param("s", $_POST["brand"]);
@@ -99,7 +108,7 @@ while ($stmt -> fetch()) {
                     $stmt = $conn -> prepare("UPDATE Review
                         SET review_text = ?, recommend = ?, date_reviewed = Now()
                         WHERE guitar_id = ?");
-                    $stmt -> bind_param("sis", $_POST["review-text"], $_POST["username"], $_GET["guitar_id"]);
+                    $stmt -> bind_param("sis", $_POST["review-text"], $_POST["recommendation"], $_GET["guitar_id"]);
                     $stmt -> execute();
 
                     echo "<br><li class='link-msg'>Review Submitted, <a href='myreviews.php'>Click here</a> to see your reviews</li>";

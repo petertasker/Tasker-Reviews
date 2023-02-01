@@ -3,6 +3,15 @@ require_once "config.php";
 if (!(isset($_SESSION["username"]))) {
 	header("Location: index.php");
 }
+
+if ($_SESSION["username"] == "admin") {
+    $username = "%%";
+} else {
+    $username = "%".$_SESSION["username"]."%";
+}
+
+// Used in filterreview.php
+$_SESSION["previous_location"] = "myreviews.php";
 ?>
 <html>
 <head>
@@ -17,7 +26,17 @@ if (!(isset($_SESSION["username"]))) {
 		<a href="myreviews.php"><span class="pull-right glyphicon glyphicon-list clickable_space"></span></a>"
         <a href="index.php"><span class="pull-right glyphicon glyphicon-home clickable_space"></span></a>
     </nav>
-            <div class="search-review__box">
+    <div class="search-review">
+        <div class="search-review__filter">
+            <h1>My Reviews</h1>
+            <form style="display: inline-block" method="GET" action="filterreview.php">
+                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-filter"</span></button>
+            </form>
+            <form style="display: inline-block" method="GET" action="searchreview.php">
+                <button class="btn btn-default"><span class="glyphicon glyphicon-refresh"</span></button>
+            </form>
+        </div>
+        <div class="search-review__box">
 
             <table class="table">
                 <tr class="header">
@@ -28,20 +47,21 @@ if (!(isset($_SESSION["username"]))) {
                     <td>Extra Info</td>
                     <td>Review Text</td>
                     <td>Recommend</td>
+                    <td>Date Reviewed</td>
                     <td>Username</td>
                     <td>Action</td>
                 </tr>
                 <?php 
                 $sql = "
-                    SELECT Guitar.guitar_id, make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, date_reviewed
+                    SELECT Guitar.guitar_id, make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, date_reviewed, Users.username
                     FROM Brand, Guitar, Review, Users
                     WHERE Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id AND Users.username = Review.username
-                    AND Users.username = ?
+                    AND Users.username LIKE ?
                     ORDER BY date_reviewed DESC";
                 $stmt = $conn -> prepare($sql);
-                $stmt -> bind_param("s", $_SESSION["username"]);
+                $stmt -> bind_param("s", $username);
                 $stmt -> execute();
-                $stmt -> bind_result($db_guitar_id, $db_make, $db_brand_name, $db_year_made, $db_price, $db_extra_info, $db_review_text, $db_recommend, $db_date_reviewed);
+                $stmt -> bind_result($db_guitar_id, $db_make, $db_brand_name, $db_year_made, $db_price, $db_extra_info, $db_review_text, $db_recommend, $db_date_reviewed, $db_username);
                 while ($stmt -> fetch()) {
                 ?>
                 <tr>
@@ -60,6 +80,8 @@ if (!(isset($_SESSION["username"]))) {
                     }
                     ?> 
                     <td><?php echo $db_date_reviewed; ?></td>
+                    <td><?php echo $db_username; ?></td>
+
                     <td>
                         <div style="display:flex;">
                             <form action="editreview.php" method="GET">
@@ -71,11 +93,8 @@ if (!(isset($_SESSION["username"]))) {
                         </div>
                     </td>
                 </tr>
-
-
             <?php ;}?>
             </table>
-            
         </div>
     </div>
 </body>

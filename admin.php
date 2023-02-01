@@ -1,6 +1,6 @@
 <?php
 require_once "config.php";
-if (!($_SESSION["admin"])) {
+if ($_SESSION["username"] != "admin") {
 	header("Location: index.php");
 }
 
@@ -34,8 +34,8 @@ while ($stmt -> fetch()){
 </body>
 	<div class="form__box">
         <br>
-		<li class="link-msg">Your review has been deleted. <a href='index.php'>Click here</a> to go to the home page, or <a href="myreviews.php">click here </a>to see your reviews.</li>
-		<li class="link-msg">Your reviwe</li>
+		<li class="link-msg"><a href="brands.php">Brand Dashboard</a></li>
+		<li class="link-msg"><a href="myreviews.php">All reviews</a></li>
     </div>  
 
 </html>

@@ -68,34 +68,35 @@ if (!(isset($_SESSION["username"]))) {
                 <br><br>
                 <div class="error-box">
                 <?php
-                // Validation goes here
-                if $_POST["year-made"] == "" {
-                    $year_made = Null; 
-                } else {
-                    $year_made = $_POST["year-made"];
-                }
-
-
+                
                 if (isset($_POST["submit"])) {
-                // Insert new brand details
-                $stmt = $conn -> prepare("INSERT IGNORE INTO Brand(brand_name) VALUES(?)");
-                $stmt -> bind_param("s", $_POST["brand"]);
-                $stmt -> execute();
+                    // Insert null values instead of empty strings
+                    if ($_POST["year-made"] == "") {
+                        $_POST["year-made"] = NULL;
+                    }
+                    
+                    if ($_POST["cost"] == "") {
+                        $_POST["cost"] = NULL;
+                    }
+                    
+                
+                    // Insert new brand details
+                    $stmt = $conn -> prepare("INSERT IGNORE INTO Brand(brand_name) VALUES(?)");
+                    $stmt -> bind_param("s", $_POST["brand"]);
+                    $stmt -> execute();
 
-                // Insert guitar details
-                $stmt = $conn -> prepare("INSERT INTO Guitar(make, brand_name, year_made, price, extra_info) VALUES(?, ?, ?, ?, ?)");
-                $stmt -> bind_param("ssids", $_POST["make"], $_POST["brand"], $year_made, $_POST["cost"], $_POST["extra-info"]);
-                $stmt -> execute();
+                    // Insert guitar details
+                    $stmt = $conn -> prepare("INSERT INTO Guitar(make, brand_name, year_made, price, extra_info) VALUES(?, ?, ?, ?, ?)");
+                    $stmt -> bind_param("ssids", $_POST["make"], $_POST["brand"], $_POST["year-made"], $_POST["cost"], $_POST["extra-info"]);
+                    $stmt -> execute();
 
-                // Insert review details
-                $stmt = $conn -> prepare("INSERT INTO Review(review_text, recommend, date_reviewed, guitar_id, username) VALUES(?, ?, NOW(), (SELECT MAX(guitar_id) FROM Guitar), ?)");
-                $stmt -> bind_param("sis", $_POST["review-text"], $_POST["recommendation"], $_SESSION["username"]);
-                $stmt -> execute();
-
-                echo "<br><li class='link-msg'>Review Submitted, <a href='myreviews.php'>Click here</a> to see your reviews</li>";
-            
-                // Stop duplicate data on F5
-                header("Location: submitted.php");
+                    // Insert review details
+                    $stmt = $conn -> prepare("INSERT INTO Review(review_text, recommend, date_reviewed, guitar_id, username) VALUES(?, ?, NOW(), (SELECT MAX(guitar_id) FROM Guitar), ?)");
+                    $stmt -> bind_param("sis", $_POST["review-text"], $_POST["recommendation"], $_SESSION["username"]);
+                    $stmt -> execute();
+                
+                    // Stop duplicate data on F5
+                    header("Location: submitted.php");
                 }
                 ?>
                 </div>
