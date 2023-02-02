@@ -57,7 +57,7 @@ if (isset($_SESSION["username"])) {
                                     $_SESSION["username"] = $db_username;
                                     $_SESSION["email-address"] = $db_email;
                                     // If admin account
-                                    if ($db_username == "admin") {
+                                    if ($_SESSION["username"]) {
                                         header("Location: admin.php");
                                     }
                                     header("Location: index.php");

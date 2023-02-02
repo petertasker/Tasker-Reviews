@@ -33,8 +33,8 @@ require_once "config.php"
                 <input type="text" name="brand" class="input"><br>
                 <div>
                 <label for="cost">Cost (between):</label><br>
-                <input style="width:40%" type="number" name="cost-low" class="input" min="0.00" max="9999999.99" step="0.01" value="0">
-                <input style ="width:40%"type="number" name="cost-high" class="input" min="0.00" max="9999999.99" step="0.01" value="1000"><br>
+                <input style="width:40%" type="number" name="cost-low" class="input" min="0.00" max="9999999.99" step="0.01" placeholder="0">
+                <input style ="width:40%"type="number" name="cost-high" class="input" min="0.00" max="9999999.99" step="0.01" placeholder="1000"><br>
                 </div>
                 <label for="year-made">Year Made (type "198" for 1980's or "2015" for 2015):</label><br>
                 <input type="number" name="year-made" class="input" max="<?php echo date("Y");?>"><br>

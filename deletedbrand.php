@@ -1,6 +1,6 @@
 <?php
 require_once "config.php";
-if (!(isset($_SESSION["admin"]))) {
+if ($_SESSION["username"] != "admin") {
     header("Location: index.php");
 }
 
@@ -10,33 +10,29 @@ $stmt = $conn -> prepare("SELECT guitar_id FROM Guitar, Brand WHERE Brand.brand_
 $stmt -> bind_param("s", $_GET["brand_name"]);
 $stmt -> execute();
 $stmt -> bind_result($db_guitar_id);
-$stmt -> store_result();
 
-// Loop for each revew result and delete
+// Loop for each query result and append to array
 while ($stmt -> fetch()) {
 	$results[] = $db_guitar_id;
 }
-echo $results;
-foreach($results as $result) {
-	// Each individual review
-}
 
- while ($stmt -> fetch()) {
+foreach($results as $result) {
+	// Loop for each review
 	$stmt = $conn -> prepare("DELETE FROM Review WHERE guitar_id = ?");
 	$stmt -> bind_param("i", $db_guitar_id);
 	$stmt -> execute();
 	echo "Review Deleted!";
-
+	
 	$stmt = $conn -> prepare("DELETE FROM Guitar WHERE guitar_id = ?");
 	$stmt -> bind_param("i", $db_guitar_id);
 	$stmt -> execute();
 	echo "Guitar Deleted!";
 }
-// TODO: have (if admin && previous location = admin.php) for searchreveiw
-// Delete the brand
-// $stmt = $conn -> prepare("DELETE FROM Brand WHERE brand_name = ?");
-// $stmt -> bind_param("s", $_GET["brand_name"]);
-// echo "Brand Deleted!";
+
+
+$stmt = $conn -> prepare("DELETE FROM Brand WHERE brand_name = ?");
+$stmt -> bind_param("s", $_GET["brand_name"]);
+echo "Brand Deleted!";
 
 
 ?>

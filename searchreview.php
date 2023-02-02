@@ -74,10 +74,11 @@ $_SESSION["previous_location"] = "searchreview.php";
                                 AND Brand.brand_name LIKE ?
                                 AND Users.username LIKE ?
                                 AND recommend LIKE ?
-                                AND price >= ? AND price <= ?
-                                AND year_made LIKE ?
+                                AND (price BETWEEN ? AND ? OR (price IS NULL OR price IS NOT NULL))
+                                AND (year_made LIKE ? OR year_made IS NULL)
                                 AND extra_info LIKE ?
                                 ORDER BY date_reviewed DESC";
+
                     
                     // concatenate for wildcard
                     $make = "%" . $_GET["make"] . "%";
@@ -96,7 +97,13 @@ $_SESSION["previous_location"] = "searchreview.php";
                         $recommend = "%%";
                     }
                 
+                    if (!(isset($_GET["cost-low"]))) {
+                        $cost_low = 0;
+                    }
                     
+                    if (!(isset($_GET["cost-high"]))) {
+                        $cost_low = 999999;
+                    }
                     // If lower > higher
                     if ($cost_high < $cost_low) {
                         $cost_high = 999999;
@@ -139,3 +146,5 @@ $_SESSION["previous_location"] = "searchreview.php";
     </div>
 </body>
 </html>
+
+

@@ -56,9 +56,7 @@ while ($stmt -> fetch()){
                 <?php 
                 
                 if(isset($_POST["submit"])) {
-                    
-                    // Validation
-                
+                 
                     
                     $stmt = $conn -> prepare("UPDATE Brand 
                     SET country_of_origin = ?, website_url = ?, 
