@@ -4,7 +4,6 @@ if ($_SESSION["username"] != "admin") {
     header("Location: index.php");
 }
 
-$results = array();
 
 $stmt = $conn -> prepare("SELECT guitar_id FROM Guitar, Brand WHERE Brand.brand_name = Guitar.brand_name AND Brand.brand_name = ?");
 $stmt -> bind_param("s", $_GET["brand_name"]);
@@ -13,27 +12,10 @@ $stmt -> bind_result($db_guitar_id);
 
 // Loop for each query result and append to array
 while ($stmt -> fetch()) {
-	$results[] = $db_guitar_id;
-}
-
-foreach($results as $result) {
-	// Loop for each review
-	$stmt = $conn -> prepare("DELETE FROM Review WHERE guitar_id = ?");
-	$stmt -> bind_param("i", $db_guitar_id);
-	$stmt -> execute();
-	echo "Review Deleted!";
-	
-	$stmt = $conn -> prepare("DELETE FROM Guitar WHERE guitar_id = ?");
-	$stmt -> bind_param("i", $db_guitar_id);
-	$stmt -> execute();
-	echo "Guitar Deleted!";
 }
 
 
-$stmt = $conn -> prepare("DELETE FROM Brand WHERE brand_name = ?");
-$stmt -> bind_param("s", $_GET["brand_name"]);
-echo "Brand Deleted!";
-
+    
 
 ?>
 <html>
@@ -51,10 +33,18 @@ echo "Brand Deleted!";
     </nav>
     <div class="form__box">
         <br>
-		<li class="link-msg">This brand has been deleted. <a href='index.php'>Click here</a> to go to the home page, or <a href="brands.php">click here </a>to go back to the brand dashboard.</li>
-		<?php 
+	    <?php
+	    if ($db_guitar_id) {
+		echo "<li class='link-msg'>Cannot delete! Please delete all reviews from this brand</li>";
+		echo "<li class='link-msg'><a href='brands.php'>Click here</a> to go back to the Brand Dashboard</li>";
+	    } else {
+		$stmt = $conn -> prepare("DELETE FROM Brand WHERE brand_name = ?");
+		$stmt -> bind_param("s", $_GET["brand_name"]);
+		$stmt -> execute();
 		
-		?>
+		echo "<li class='link-msg'>Brand Deleted! <a href='brands.php'>Click here</a> to go the Brand Dashboard</li>";
+	    }
+	    ?>
     </div>  
 </body>
 </html>

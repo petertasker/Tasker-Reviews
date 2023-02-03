@@ -90,12 +90,7 @@ $_SESSION["previous_location"] = "searchreview.php";
                     $cost_low = $_GET["cost-low"];
 
                     
-                    // Unchecked radio buttons do not appear in URL
-                    if (isset($_GET["recommendation"])) {
-                        $recommend = "%" . $_GET["recommendation"] . "%";
-                    } else {
-                        $recommend = "%%";
-                    }
+                    
                 
                     if (!(isset($_GET["cost-low"]))) {
                         $cost_low = 0;

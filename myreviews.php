@@ -131,7 +131,7 @@ $_SESSION["previous_location"] = "myreviews.php";
                             <td><?php echo $db_extra_info; ?></td>
                             <td><?php echo $db_review_text; ?></td>
                             <?php 
-                            if ($db_recommend == 0) {
+                            if ($db_recommend == 1) {
                                 ?><td><span class="glyphicon glyphicon-thumbs-up"></span></td>
                             <?php } else {
                                 ?><td><span class="glyphicon glyphicon-thumbs-down"></span></td>	

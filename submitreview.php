@@ -56,8 +56,8 @@ if (!(isset($_SESSION["username"]))) {
                 <textarea name="review-text" class="input" type="text" rows="4" cols="50" Required></textarea><br>
 
                 <div class="radio-container">
-                    <label><input class="form-radio" type="radio" name="recommendation" value="0" required><span class="recommend glyphicon glyphicon-thumbs-up"></span></label>
-                    <label><input class="form-radio" type="radio" name="recommendation" value="1" required><span class="recommend glyphicon glyphicon-thumbs-down"></span></label>
+                    <label><input class="form-radio" type="radio" name="recommendation" value="1" required><span class="recommend glyphicon glyphicon-thumbs-up"></span></label>
+                    <label><input class="form-radio" type="radio" name="recommendation" value="0" required><span class="recommend glyphicon glyphicon-thumbs-down"></span></label>
                 </div>
                     <br><br>
 

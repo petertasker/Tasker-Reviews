@@ -61,13 +61,13 @@ while ($stmt -> fetch()) {
                 <div class="radio-container">
                     <?php
                     // html checked change for recommend
-                    if ($db_recommend == 1) { ?>
+                    if ($db_recommend == 0) { ?>
                         <label><input class="form-radio" type="radio" name="recommendation" value="0" required><span class="recommend glyphicon glyphicon-thumbs-up"></span></label>
                     <label><input class="form-radio" type="radio" name="recommendation" value="1" checked="checked" required><span class="recommend glyphicon glyphicon-thumbs-down"></span></label>
                     <?php
                     } else { ?>
-                        <label><input class="form-radio" type="radio" name="recommendation" value="0" checked="checked" required><span class="recommend glyphicon glyphicon-thumbs-up"></span></label>
-                    <label><input class="form-radio" type="radio" name="recommendation" value="1" required><span class="recommend glyphicon glyphicon-thumbs-down"></span></label>
+                        <label><input class="form-radio" type="radio" name="recommendation" value="1" checked="checked" required><span class="recommend glyphicon glyphicon-thumbs-up"></span></label>
+                    <label><input class="form-radio" type="radio" name="recommendation" value="0" required><span class="recommend glyphicon glyphicon-thumbs-down"></span></label>
                     <?php } ?>
                     
                 </div>

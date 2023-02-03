@@ -45,7 +45,7 @@ if ($_SESSION["username"] != "admin") {
 				<tr>
 					<td><?php echo $db_brand_name; ?></td>
 					<td><?php echo $db_country_of_origin ?></td>
-					<td><?php echo $db_website_url; ?></td>
+					<td><a href='<?php echo $db_website_url; ?>'><?php echo $db_website_url; ?></td>
 					<td><?php echo $db_date_established; ?></td>
 					<td>
 						<div style="display:flex;">
