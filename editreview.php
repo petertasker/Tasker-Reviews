@@ -110,8 +110,6 @@ while ($stmt -> fetch()) {
                         WHERE guitar_id = ?");
                     $stmt -> bind_param("sis", $_POST["review-text"], $_POST["recommendation"], $_GET["guitar_id"]);
                     $stmt -> execute();
-
-                    echo "<br><li class='link-msg'>Review Submitted, <a href='myreviews.php'>Click here</a> to see your reviews</li>";
                 
                     // Stop duplicate data on F5
                     header("Location: myreviews.php");
