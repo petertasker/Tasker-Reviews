@@ -120,7 +120,6 @@ if (isset($_SESSION["username"])) {
                         $stmt -> execute();
                         // 3. Declare session variables
                         $_SESSION['username'] = $_POST["username"];
-                        $_SESSION["email-address"] = $_POST["email-address"];
                         // If admin account
                         if ($_POST["username"] == "admin") {
                             $_SESSION["admin"] = True;
