@@ -55,7 +55,6 @@ if (isset($_SESSION["username"])) {
                                 if (password_verify($_POST["password"], $db_password)) {
                                     // Set session variables and redirect
                                     $_SESSION["username"] = $db_username;
-                                    $_SESSION["email-address"] = $db_email;
                                     // If admin account
                                     if ($_SESSION["username"]) {
                                         header("Location: admin.php");
