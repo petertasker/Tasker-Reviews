@@ -78,7 +78,6 @@ $_SESSION["previous_location"] = "myreviews.php";
                                 AND (price BETWEEN ? AND ? OR (price IS NULL OR price IS NOT NULL))
                                 AND (year_made LIKE ? OR year_made IS NULL)
                                 AND extra_info LIKE ?
-                                AND Users.username LIKE ?
                                 ORDER BY date_reviewed DESC";
 
                     
