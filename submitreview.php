@@ -36,7 +36,7 @@ if (!(isset($_SESSION["username"]))) {
                     $stmt->bind_result($db_brand_name);
                     while ($stmt->fetch()){
                     
-                    echo "<option value=".$db_brand_name."></option>";
+                    echo "<option value='".$db_brand_name."'></option>";
                     }
                     ?>
                     
