@@ -3,13 +3,6 @@ require_once "config.php";
 if ($_SESSION["username"] != "admin") {
 	header("Location: index.php");
 }
-
-$stmt = $conn -> prepare("SELECT country_of_origin, website_url, date_established FROM Brand WHERE brand_name = ?");
-$stmt -> bind_param("s", $_GET["brand_name"]);
-$stmt -> execute();
-$stmt -> bind_result($db_country, $db_url, $db_date);
-while ($stmt -> fetch()){
-}
 ?>
 <html>
 <head>
