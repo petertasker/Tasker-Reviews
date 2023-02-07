@@ -141,6 +141,4 @@ if (isset($_SESSION["username"])) {
     
 </body>
 </html>
-.image__overlay a {
-  color: white;
-}
+
