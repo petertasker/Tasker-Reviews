@@ -10,7 +10,7 @@ $stmt = $conn -> prepare("SELECT make,
     FROM Guitar, Brand, Review, Users
     WHERE Brand.brand_name = Guitar.brand_name
         AND Guitar.guitar_id = Review.guitar_id
-        AND Users.username = Review.Username
+        AND Users.username = Review.username
         AND Guitar.guitar_id = ?");
 $stmt -> bind_param("i", $_GET["guitar_id"]);
 $stmt -> execute();
