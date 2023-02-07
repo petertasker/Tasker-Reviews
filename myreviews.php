@@ -56,10 +56,20 @@ $_SESSION["previous_location"] = "myreviews.php";
                 // Use of wildcard for users to allow admin to be "%%"
                 if (count($_GET) == 0) {
                     $sql = "
-                            SELECT Guitar.guitar_id, make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, Users.username, date_reviewed
+                            SELECT Guitar.guitar_id, 
+			    	make, 
+				Brand.brand_name, 
+				year_made, 
+				price, 
+				extra_info, 
+				review_text, 
+				recommend, 
+				Users.username, 
+				date_reviewed
                             FROM Brand, Users, Guitar, Review
-                            WHERE Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id 
-                                AND Users.username = Review.username
+                            WHERE Brand.brand_name = Guitar.brand_name 
+			    	AND Guitar.guitar_id = Review.guitar_id 
+				AND Users.username = Review.username
                                 AND Users.username LIKE ?
                             ORDER BY date_reviewed DESC";
                     $stmt = $conn -> prepare($sql);
@@ -68,9 +78,20 @@ $_SESSION["previous_location"] = "myreviews.php";
                 } else {
 
                     $sql = "
-                            SELECT Guitar.guitar_id, make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, Users.username, date_reviewed
+                            SELECT Guitar.guitar_id,
+			    	make, 
+				Brand.brand_name, 
+				year_made, 
+				price, 
+				extra_info, 
+				review_text, 
+				recommend, 
+				Users.username, 
+				date_reviewed
                             FROM Brand, Users, Guitar, Review
-                            WHERE Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id AND Users.username = Review.username
+                            WHERE Brand.brand_name = Guitar.brand_name 
+			    	AND Guitar.guitar_id = Review.guitar_id 
+				AND Users.username = Review.username
                                 AND make LIKE ?
                                 AND Brand.brand_name LIKE ?
                                 AND Users.username LIKE ?
