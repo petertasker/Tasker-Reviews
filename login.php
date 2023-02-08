@@ -40,11 +40,11 @@ if (isset($_SESSION["username"])) {
                         $errors = array();
 
                     // Check if user exists, gets required data
-                    $stmt = $conn -> prepare("SELECT username, password, forename, surname, email FROM Users WHERE username = ?");
+                    $stmt = $conn -> prepare("SELECT username, password FROM Users WHERE username = ?");
                     $stmt -> bind_param("s", $_POST["username"]);
                     $stmt -> execute();
                     $stmt -> store_result();
-                    $stmt -> bind_result($db_username, $db_password, $db_forename, $db_surname, $email);
+                    $stmt -> bind_result($db_username, $db_password);
 
                         // Loops for each result, although there can only be one.
                         if ($stmt -> num_rows() == 0) {
