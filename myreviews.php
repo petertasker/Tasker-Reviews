@@ -1,9 +1,11 @@
 <?php
 require_once "config.php";
+// User must be logged in
 if (!(isset($_SESSION["username"]))) {
 	header("Location: index.php");
 }
-
+// If the admin is here, they should be able to apdate any review,
+// so they are put in as an empty wildcard for the query
 if ($_SESSION["username"] == "admin") {
     $username = "%%";
 } else {
@@ -56,67 +58,43 @@ $_SESSION["previous_location"] = "myreviews.php";
                 // Use of wildcard for users to allow admin to be "%%"
                 if (count($_GET) == 0) {
                     $sql = "
-                            SELECT Guitar.guitar_id, 
-			    	make, 
-				Brand.brand_name, 
-				year_made, 
-				price, 
-				extra_info, 
-				review_text, 
-				recommend, 
-				Users.username, 
-				date_reviewed
+                            SELECT Guitar.guitar_id, make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, Users.username, date_reviewed
                             FROM Brand, Users, Guitar, Review
-                            WHERE Brand.brand_name = Guitar.brand_name 
-			    	AND Guitar.guitar_id = Review.guitar_id 
-				AND Users.username = Review.username
-                                AND Users.username LIKE ?
+                            WHERE Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id 
+                                AND Users.username = Review.username
                             ORDER BY date_reviewed DESC";
                     $stmt = $conn -> prepare($sql);
-                    $stmt -> bind_param("s", $username);
                     
                 } else {
 
                     $sql = "
-                            SELECT Guitar.guitar_id,
-			    	make, 
-				Brand.brand_name, 
-				year_made, 
-				price, 
-				extra_info, 
-				review_text, 
-				recommend, 
-				Users.username, 
-				date_reviewed
-                            FROM Brand, Users, Guitar, Review
-                            WHERE Brand.brand_name = Guitar.brand_name 
-			    	AND Guitar.guitar_id = Review.guitar_id 
-				AND Users.username = Review.username
-                                AND make LIKE ?
-                                AND Brand.brand_name LIKE ?
-                                AND Users.username LIKE ?
-                                AND recommend LIKE ?
-                                AND (price BETWEEN ? AND ? OR (price IS NULL OR price IS NOT NULL))
-                                AND (year_made LIKE ? OR year_made IS NULL)
-                                AND extra_info LIKE ?
-                                ORDER BY date_reviewed DESC";
+                    SELECT Guitar.guitar_id, make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, Users.username, date_reviewed
+                    FROM Brand, Users, Guitar, Review
+                    WHERE Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id AND Users.username = Review.username
+                        AND make LIKE ?
+                        AND Brand.brand_name LIKE ?
+                        AND Users.username LIKE ?
+                        AND recommend LIKE ?
+                        AND (price BETWEEN ? AND ? OR (price IS NULL))
+                        AND (year_made LIKE ? OR (year_made IS NULL))
+                        AND extra_info LIKE ?
+                        ORDER BY date_reviewed DESC";
 
                     
                     // concatenate for wildcard
                     $make = "%" . $_GET["make"] . "%";
                     $brand_name = "%" . $_GET["brand"] . "%";
                     $username = "%" . $_GET["username"] . "%";
-                    $year_made = "%" . $_GET["year-made"] . "%";
-                    $extra_info = "%" . $_GET["extra-info"] . "%";               
                     $cost_high = $_GET["cost-high"];
                     $cost_low = $_GET["cost-low"];
+                    $year_made = "%" . $_GET["year-made"] . "%";
+                    $extra_info = "%" . $_GET["extra-info"] . "%";               
 
                     
-                    // Unchecked radio buttons do not appear in URL
-                    if (isset($_GET["recommendation"])) {
-                        $recommend = "%" . $_GET["recommendation"] . "%";
-                    } else {
+                    if (!(isset($_GET["recommendation"]))) {
                         $recommend = "%%";
+                    } else {
+                        $recommend = "%" . $_GET["recommendation"]. "%";
                     }
                 
                     if (!(isset($_GET["cost-low"]))) {
@@ -131,13 +109,12 @@ $_SESSION["previous_location"] = "myreviews.php";
                         $cost_high = 999999;
                     }
                     
-                    // Two decimal places format for SQL
+                    //// Two decimal places format for SQL
                     $cost_low = number_format((float)$cost_low, 2, '.', '');
                     $cost_high = number_format((float)$cost_high, 2, '.', '');
-                    
+                    //
                     $stmt = $conn -> prepare($sql);
-                    $stmt -> bind_param("ssssddsss", $make, $brand_name, $username, $recommend, $cost_low, $cost_high, $year_made, $extra_info, $username);
-
+                    $stmt -> bind_param("ssssddis", $make, $brand_name, $username, $recommend, $cost_low, $cost_high, $year_made, $extra_info);
                 }                  
                     $stmt -> execute();
                     $stmt -> bind_result($db_guitar_id, $db_make, $db_brand_name, $db_year_made, $db_price, $db_extra_info, $db_review_text, $db_recommend, $db_username, $db_date_reviewed);

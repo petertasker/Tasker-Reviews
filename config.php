@@ -5,7 +5,7 @@ define("db_username", "root");
 define("db_password", "");
 define("db_name", "guitar_database");
 
-// Automatiacally highlights connection errors
+// Automatiacally highlights any MySQL errors
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 // Connect

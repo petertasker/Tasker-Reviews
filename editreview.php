@@ -1,9 +1,14 @@
 <?php
 require_once "config.php";
 if (!(isset($_SESSION["username"]))) {
-    header("Location: login.php");
+    header("Location: index.php");
+}
+// Make sure guitar id is there to be edited
+if (!(isset($_GET["guitar_id"]))) {
+    header("Location: index.php");
 }
 
+// Select review details for default form values
 $stmt = $conn -> prepare("SELECT make, 
     Brand.brand_name, year_made, price, extra_info, review_text,
     recommend

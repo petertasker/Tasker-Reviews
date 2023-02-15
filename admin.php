@@ -1,5 +1,7 @@
 <?php
 require_once "config.php";
+
+// User must be admin account
 if ($_SESSION["username"] != "admin") {
 	header("Location: index.php");
 }
@@ -13,15 +15,8 @@ if ($_SESSION["username"] != "admin") {
 </head>
 <body class="body">
     <nav class="navbar">
-        <?php
-        // If session variable is set the user is logged in.
-        if (isset($_SESSION["username"])) {
-            echo "<a href='signout.php'><span class='pull-right glyphicon glyphicon-log-out clickable_space'></span></a>";
-            echo "<a href='myreviews.php'><span class='pull-right glyphicon glyphicon-list clickable_space'></span></a>"; 
-        } else {
-            echo "<a href='login.php'><span class='pull-right glyphicon glyphicon-log-in clickable_space'></span></a>";
-        }
-        ?>
+        <a href='signout.php'><span class='pull-right glyphicon glyphicon-log-out clickable_space'></span></a>
+        <a href='myreviews.php'><span class='pull-right glyphicon glyphicon-list clickable_space'></span></a>
         <a href="index.php"><span class="pull-right glyphicon glyphicon-home clickable_space"></span></a>
     </nav>
 </body>

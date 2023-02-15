@@ -1,5 +1,7 @@
 <?php
 require_once "config.php";
+
+// User must be admin account
 if ($_SESSION["username"] != "admin") {
 	header("Location: index.php");
 }
@@ -34,6 +36,7 @@ if ($_SESSION["username"] != "admin") {
 					<td>Action</td>
 				</tr>
 				<?php 
+				// Select data from brand to display
 				$sql = "
 					SELECT brand_name, country_of_origin, website_url, date_established
 					FROM Brand";

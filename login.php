@@ -1,5 +1,7 @@
 <?php
 require_once "config.php";
+
+// User cannot already be logged in
 if (isset($_SESSION["username"])) {
     header("Location: index.php");
 }

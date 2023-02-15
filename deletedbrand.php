@@ -1,10 +1,15 @@
 <?php
 require_once "config.php";
+
+// User must be admin account
 if ($_SESSION["username"] != "admin") {
     header("Location: index.php");
 }
-
-
+// Brand name must be in URL
+if (!(isset($_GET["brand_name"]))) {
+    header("Location: index.php");
+}
+// Query to find if any reviews use this guitar_id.
 $stmt = $conn -> prepare("SELECT guitar_id FROM Guitar, Brand WHERE Brand.brand_name = Guitar.brand_name AND Brand.brand_name = ?");
 $stmt -> bind_param("s", $_GET["brand_name"]);
 $stmt -> execute();
@@ -34,15 +39,16 @@ while ($stmt -> fetch()) {
     <div class="form__box">
         <br>
 	    <?php
+        // If there were any results of the query, then the DELETE query will not be ran
 	    if ($db_guitar_id) {
 		echo "<li class='link-msg'>Cannot delete! Please delete all reviews from this brand</li>";
 		echo "<li class='link-msg'><a href='brands.php'>Click here</a> to go back to the Brand Dashboard</li>";
 	    } else {
-		$stmt = $conn -> prepare("DELETE FROM Brand WHERE brand_name = ?");
-		$stmt -> bind_param("s", $_GET["brand_name"]);
-		$stmt -> execute();
-		
-		echo "<li class='link-msg'>Brand Deleted! <a href='brands.php'>Click here</a> to go the Brand Dashboard</li>";
+            $stmt = $conn -> prepare("DELETE FROM Brand WHERE brand_name = ?");
+            $stmt -> bind_param("s", $_GET["brand_name"]);
+            $stmt -> execute();
+            
+            echo "<li class='link-msg'>Brand Deleted! <a href='brands.php'>Click here</a> to go the Brand Dashboard</li>";
 	    }
 	    ?>
     </div>  

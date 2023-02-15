@@ -1,9 +1,16 @@
 <?php
 require_once "config.php";
+
+// User must be admin account
 if ($_SESSION["username"] != "admin") {
 	header("Location: index.php");
 }
+// Brand name must be in URL
+if (!(isset($_GET["brand_name"]))) {
+    header("Location: index.php");
+}
 
+// Select brand details for table
 $stmt = $conn -> prepare("SELECT country_of_origin, website_url, date_established FROM Brand WHERE brand_name = ?");
 $stmt -> bind_param("s", $_GET["brand_name"]);
 $stmt -> execute();
@@ -20,22 +27,14 @@ while ($stmt -> fetch()){
 </head>
 <body class="body">
     <nav class="navbar">
-        <?php
-        // If session variable is set the user is logged in.
-        if (isset($_SESSION["username"])) {
-            echo "<a href='signout.php'><span class='pull-right glyphicon glyphicon-log-out clickable_space'></span></a>";
-            echo "<a href='myreviews.php'><span class='pull-right glyphicon glyphicon-list clickable_space'></span></a>"; 
-        } else {
-            echo "<a href='login.php'><span class='pull-right glyphicon glyphicon-log-in clickable_space'></span></a>";
-        }
-        ?>
+        <a href='signout.php'><span class='pull-right glyphicon glyphicon-log-out clickable_space'></span></a>
+        <a href='myreviews.php'><span class='pull-right glyphicon glyphicon-list clickable_space'></span></a>
         <a href="index.php"><span class="pull-right glyphicon glyphicon-home clickable_space"></span></a>
     </nav>
     <div class="form">
         <form method="POST">
             <div class="form__box">
                 <h1>Edit Brand</h1>
-                <h2>Deleting a brand will delte all related reviews</h2>
                 <label for="make">Brand Name:</label><br>
                 <input disabled type="text" class="input" value="<?php echo $_GET["brand_name"]; ?>"><br>
 
@@ -57,7 +56,7 @@ while ($stmt -> fetch()){
                 
                 if(isset($_POST["submit"])) {
                  
-                    
+                    // Update brand query
                     $stmt = $conn -> prepare("UPDATE Brand 
                     SET country_of_origin = ?, website_url = ?, 
                     date_established = ? 

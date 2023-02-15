@@ -1,5 +1,6 @@
 <?php
 require_once "config.php";
+// Logged in user cannot be on this page
 if (isset($_SESSION["username"])) {
     header("Location: index.php");
 }
@@ -13,15 +14,7 @@ if (isset($_SESSION["username"])) {
 </head>
 <body class="body">
     <nav class="navbar">
-        <?php
-        // If session variable is set the user is logged in.
-        if (isset($_SESSION["username"])) {
-            echo "<a href='signout.php'><span class='pull-right glyphicon glyphicon-log-out clickable_space'></span></a>";
-            echo "<a href='myreviews.php'><span class='pull-right glyphicon glyphicon-list clickable_space'></span></a>"; 
-        } else {
-            echo "<a href='login.php'><span class='pull-right glyphicon glyphicon-log-in clickable_space'></span></a>";
-        }
-        ?>
+        <a href='login.php'><span class='pull-right glyphicon glyphicon-log-in clickable_space'></span></a>
         <a href="index.php"><span class="pull-right glyphicon glyphicon-home clickable_space"></span></a>
     </nav>
     <div class="form">
@@ -126,7 +119,7 @@ if (isset($_SESSION["username"])) {
                         }
 
                         // 4. Let user traverse website
-                        echo "<br><li>Successfully created account!, please <a class='home-page-link' href='index.php'>click here</a> to go to the home page.</li>";
+                        header("Location: index.php");
                     }
                 }
                 ?>

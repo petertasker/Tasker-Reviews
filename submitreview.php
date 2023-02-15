@@ -1,5 +1,6 @@
 <?php    
 require_once "config.php";
+// User must be logged in
 if (!(isset($_SESSION["username"]))) {
     header("Location: login.php");
 }
@@ -29,17 +30,17 @@ if (!(isset($_SESSION["username"]))) {
                 <label for="brand">Manufacturer:*</label><br>
                 <input list="brands" name="brand" class="input" required><br>
 
-                <datalist id="brand">
+                <datalist id="brands">
                     <?php
                     $stmt = $conn->prepare("SELECT DISTINCT brand_name FROM Brand");
                     $stmt->execute();
                     $stmt->bind_result($db_brand_name);
                     while ($stmt->fetch()){
-                    
-                    echo "<option value='".$db_brand_name."'></option>";
-                    }
-                    ?>
-                    
+    
+                        ?>
+                        <option value="<?php echo $db_brand_name; ?>">
+                    <?php } ?>
+        
                     
                 </datalist>
 
