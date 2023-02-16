@@ -57,19 +57,43 @@ $_SESSION["previous_location"] = "searchreview.php";
                 // If user there are no filter variables in the URL 
                 if (count($_GET) == 0) {
                     $sql = "
-                            SELECT make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, Users.username, date_reviewed
-                            FROM Brand, Users, Guitar, Review
-                            WHERE Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id 
-                                AND Users.username = Review.username
-                            ORDER BY date_reviewed DESC";
+                        SELECT make, 
+                            Brand.brand_name, 
+                            year_made, 
+                            price, 
+                            extra_info, 
+                            review_text, 
+                            recommend, 
+                            Users.username, 
+                            date_reviewed
+                        FROM Brand, 
+                            Users, 
+                            Guitar, 
+                            Review
+                        WHERE Brand.brand_name = Guitar.brand_name 
+                            AND Guitar.guitar_id = Review.guitar_id 
+                            AND Users.username = Review.username
+                        ORDER BY date_reviewed DESC";
                     $stmt = $conn -> prepare($sql);
                     
                 } else {
 
                     $sql = "
-                    SELECT make, Brand.brand_name, year_made, price, extra_info, review_text, recommend, Users.username, date_reviewed
-                    FROM Brand, Users, Guitar, Review
-                    WHERE Brand.brand_name = Guitar.brand_name AND Guitar.guitar_id = Review.guitar_id AND Users.username = Review.username
+                    SELECT make, 
+                        Brand.brand_name, 
+                        year_made, price, 
+                        extra_info, 
+                        review_text, 
+                        recommend, 
+                        Users.username, 
+                        date_reviewed
+                    FROM Brand, 
+                        Users, 
+                        Guitar, 
+                        Review
+                    WHERE Brand.brand_name = Guitar.brand_name 
+                        AND Guitar.guitar_id = Review.guitar_id 
+                        AND Users.username = Review.username
                         AND make LIKE ?
                         AND Brand.brand_name LIKE ?
                         AND Users.username LIKE ?
