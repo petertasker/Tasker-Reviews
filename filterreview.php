@@ -11,11 +11,8 @@ require_once "config.php"
 </head>
 <body class="body">
     <nav class="navbar">
-    <nav class="navbar">
         <a href='signout.php'><span class='pull-right glyphicon glyphicon-log-out clickable_space'></span></a>
         <a href='myreviews.php'><span class='pull-right glyphicon glyphicon-list clickable_space'></span></a>
-        <a href="index.php"><span class="pull-right glyphicon glyphicon-home clickable_space"></span></a>
-    </nav>
         <a href="index.php"><span class="pull-right glyphicon glyphicon-home clickable_space"></span></a>
     </nav>
     <div class="form">
