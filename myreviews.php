@@ -75,8 +75,10 @@ $_SESSION["previous_location"] = "myreviews.php";
                             WHERE Brand.brand_name = Guitar.brand_name
                                 AND Guitar.guitar_id = Review.guitar_id 
                                 AND Users.username = Review.username
+				AND Users.username LIKE ?
                             ORDER BY date_reviewed DESC";
                     $stmt = $conn -> prepare($sql);
+		    $stmt -> bind_param("s", $username);
                     
                 } else {
 
