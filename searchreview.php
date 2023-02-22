@@ -30,10 +30,10 @@ $_SESSION["previous_location"] = "searchreview.php";
             <h1>Search and filter</h1>
 
             <form style="display: inline-block" method="GET" action="filterreview.php">
-                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-filter"</span></button>
+                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-filter"></span></button>
             </form>
             <form style="display: inline-block" method="GET" action="searchreview.php">
-                <button class="btn btn-default"><span class="glyphicon glyphicon-refresh"</span></button>
+                <button class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span></button>
             </form>
         </div>
         <div class="search-review__box">
