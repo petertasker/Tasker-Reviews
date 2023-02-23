@@ -19,12 +19,13 @@ if ($_SESSION["username"] != "admin") {
         <a href='myreviews.php'><span class='pull-right glyphicon glyphicon-list clickable_space'></span></a>
         <a href="index.php"><span class="pull-right glyphicon glyphicon-home clickable_space"></span></a>
     </nav>
-</body>
-	<div class="form__box">
+    <div class="form__box">
         <br>
 		<li class="link-msg"><a href="brands.php">Brand Dashboard</a></li>
 		<li class="link-msg"><a href="myreviews.php">All reviews</a></li>
     </div>  
+</body>
+	
 
 </html>
 
