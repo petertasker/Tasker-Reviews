@@ -35,17 +35,17 @@ while ($stmt -> fetch()){
         <form method="POST">
             <div class="form__box">
                 <h1>Edit Brand</h1>
-                <label for="make">Brand Name:</label><br>
-                <input disabled type="text" class="input" value="<?php echo $_GET["brand_name"]; ?>"><br>
+                    <label for="make">Brand Name:</label><br>
+                    <input disabled type="text" class="input" value="<?php echo $_GET["brand_name"]; ?>"><br>
 
-                <label for="brand">Country of Origin:</label><br>
-                <input type="text" name="country" class="input" value="<?php echo $db_country; ?>"><br>
+                    <label for="brand">Country of Origin:</label><br>
+                    <input type="text" name="country" class="input" value="<?php echo $db_country; ?>"><br>
 
-                <label for="brand">Website Url:</label><br>
-                <input type="text" name="url" class="input" value="<?php echo $db_url; ?>"><br>
+                    <label for="brand">Website Url:</label><br>
+                    <input type="text" name="url" class="input" value="<?php echo $db_url; ?>"><br>
 
-                <label for="brand">Date Established (YYYY-MM-DD):</label><br>
-                <input type="text" name="date" class="input" value="<?php echo substr($db_date,0 ,10); ?>"><br>
+                    <label for="brand">Date Established (YYYY-MM-DD):</label><br>
+                    <input type="text" name="date" class="input" value="<?php echo substr($db_date,0 ,10); ?>"><br>
                 
                 <div class="button-container">
                     <div><input class="button" type="reset" name="reset" value="Reset"></div>
@@ -55,17 +55,17 @@ while ($stmt -> fetch()){
                 <?php 
                 
                 if(isset($_POST["submit"])) {
-                 
+                    
                     // Update brand query
                     $stmt = $conn -> prepare("UPDATE Brand 
                     SET country_of_origin = ?, website_url = ?, 
-                    date_established = ? 
+                    date_established = CAST(? AS DATE) 
                     WHERE brand_name = ?");
 
                     $stmt -> bind_param("ssss", $_POST["country"], $_POST["url"], $_POST["date"], $_GET["brand_name"]);
                     $stmt -> execute();
+                    echo $_POST["date"];
                     header("Location: brands.php");
-                    echo "<li>Is your date in the correct format?</li>";
                 }
                     
                             

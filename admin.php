@@ -21,8 +21,8 @@ if ($_SESSION["username"] != "admin") {
     </nav>
     <div class="form__box">
         <br>
-		<li class="link-msg"><a href="brands.php">Brand Dashboard</a></li>
-		<li class="link-msg"><a href="myreviews.php">All reviews</a></li>
+        <li class="link-msg"><a href="brands.php">Brand Dashboard</a></li>
+        <li class="link-msg"><a href="myreviews.php">All reviews</a></li>
     </div>  
 </body>
 	

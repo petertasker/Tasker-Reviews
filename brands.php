@@ -49,7 +49,7 @@ if ($_SESSION["username"] != "admin") {
 					<td><?php echo $db_brand_name; ?></td>
 					<td><?php echo $db_country_of_origin ?></td>
 					<td><a href='<?php echo $db_website_url; ?>'><?php echo $db_website_url; ?></td>
-					<td><?php echo $db_date_established; ?></td>
+					<td><?php echo substr($db_date_established,0 ,10); ?></td>
 					<td>
 						<div style="display:flex;">
 							<form action="editbrand.php" method="GET">

@@ -102,7 +102,6 @@ $_SESSION["previous_location"] = "myreviews.php";
                         AND Users.username = Review.username
                         AND make LIKE ?
                         AND Brand.brand_name LIKE ?
-                        AND Users.username LIKE ?
                         AND recommend LIKE ?
                         AND (price BETWEEN ? AND ? OR (price IS NULL))
                         AND (year_made LIKE ? OR (year_made IS NULL))
@@ -143,7 +142,7 @@ $_SESSION["previous_location"] = "myreviews.php";
                     $cost_high = number_format((float)$cost_high, 2, '.', '');
                     //
                     $stmt = $conn -> prepare($sql);
-                    $stmt -> bind_param("ssssddis", $make, $brand_name, $username, $recommend, $cost_low, $cost_high, $year_made, $extra_info);
+                    $stmt -> bind_param("sssddis", $make, $brand_name, $recommend, $cost_low, $cost_high, $year_made, $extra_info);
                 }                  
                     $stmt -> execute();
                     $stmt -> bind_result($db_guitar_id, $db_make, $db_brand_name, $db_year_made, $db_price, $db_extra_info, $db_review_text, $db_recommend, $db_username, $db_date_reviewed);

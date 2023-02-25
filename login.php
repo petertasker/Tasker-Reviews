@@ -58,7 +58,7 @@ if (isset($_SESSION["username"])) {
                                     // Set session variables and redirect
                                     $_SESSION["username"] = $db_username;
                                     // If admin account
-                                    if ($_SESSION["username"]) {
+                                    if ($_SESSION["username"] == "admin") {
                                         header("Location: admin.php");
                                     }
                                     header("Location: index.php");

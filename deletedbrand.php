@@ -18,10 +18,6 @@ $stmt -> bind_result($db_guitar_id);
 // Loop for each query result and append to array
 while ($stmt -> fetch()) {
 }
-
-
-    
-
 ?>
 <html>
 <head>
@@ -38,19 +34,19 @@ while ($stmt -> fetch()) {
     </nav>
     <div class="form__box">
         <br>
-	    <?php
+        <?php
         // If there were any results of the query, then the DELETE query will not be ran
-	    if ($db_guitar_id) {
-		echo "<li class='link-msg'>Cannot delete! Please delete all reviews from this brand</li>";
-		echo "<li class='link-msg'><a href='brands.php'>Click here</a> to go back to the Brand Dashboard</li>";
-	    } else {
+        if ($db_guitar_id) {
+        echo "<li class='link-msg'>Cannot delete! Please delete all reviews from this brand</li>";
+        echo "<li class='link-msg'><a href='brands.php'>Click here</a> to go back to the Brand Dashboard</li>";
+        } else {
             $stmt = $conn -> prepare("DELETE FROM Brand WHERE brand_name = ?");
             $stmt -> bind_param("s", $_GET["brand_name"]);
             $stmt -> execute();
             
             echo "<li class='link-msg'>Brand Deleted! <a href='brands.php'>Click here</a> to go the Brand Dashboard</li>";
-	    }
-	    ?>
+        }
+        ?>
     </div>  
 </body>
 </html>
