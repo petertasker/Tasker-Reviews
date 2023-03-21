@@ -1,5 +1,9 @@
 <?php
+
+// Peter Tasker SCN: 111310599
+
 require_once "config.php";
+
 // Logged in user cannot be on this page
 if (isset($_SESSION["username"])) {
     header("Location: index.php");
