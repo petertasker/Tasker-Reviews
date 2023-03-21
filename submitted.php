@@ -1,4 +1,7 @@
 <?php
+
+// Peter Tasker SCN: 111310599
+
 require_once "config.php";
 
 // Make sure a user who is not signed out can access this page
