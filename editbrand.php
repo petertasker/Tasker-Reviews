@@ -1,4 +1,7 @@
 <?php
+
+// Peter Tasker SCN: 111310599
+
 require_once "config.php";
 
 // User must be admin account
